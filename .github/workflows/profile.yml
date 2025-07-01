@@ -28,12 +28,6 @@ jobs:
       steps:
         - uses: actions/checkout@v4
 
-        # -------- Sync Main --------
-        - name: Sync with remote main
-          run: |
-            git fetch origin main
-            git reset --hard origin/main
-
         # ---------- LAPRAS ----------
         - name: LAPRAS Card
           uses: kawamataryo/lapras-card-readme@main
@@ -41,6 +35,12 @@ jobs:
             SHARE_ID: ${{ env.LAPRAS_ID }}
             LANG: ja
             UPDATE_TIME: "false"
+        
+        # -------- Sync Main --------
+        - name: Sync with remote main
+          run: |
+            git fetch origin main
+            git reset --hard origin/main
 
         # ---------- README 生成 ----------
         - name: Update README sections
