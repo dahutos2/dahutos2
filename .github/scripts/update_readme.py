@@ -7,7 +7,7 @@ README 自動生成
   • Stats/Trophy : キャッシュ SVG 埋め込み
 """
 from __future__ import annotations
-import json, os, re, time, hashlib, urllib.request, collections
+import json, os, re, hashlib, urllib.request, collections
 from pathlib import Path
 
 USER = "dahutos2"
@@ -219,6 +219,7 @@ def main():
     info = user_info()
     repos = repos_all()
     md = README.read_text(encoding="utf-8")
+
     md = repl("hero", hero_md(info), md)
     md = repl("stack", stack_md(repos), md)
     md = repl("stats", stats_md(), md)
@@ -233,7 +234,8 @@ def main():
     jst = datetime.now(timezone.utc) + timedelta(hours=9)
     stamp = jst.strftime("%Y-%m-%d %H:%M JST")
     footer = f'<p align="right"><sup>⏰ Updated {stamp}</sup></p>'
-    md += f"\n\n{footer}\n"
+    md = repl("footer", footer, md)
+
     README.write_text(md, encoding="utf-8")
 
 
