@@ -13,6 +13,7 @@ on:
 
 jobs:
     update-profile:
+      if: github.actor != 'github-actions[bot]'
       runs-on: ubuntu-latest
       environment: profile-links
       env:
@@ -49,19 +50,15 @@ jobs:
         - name: Update README sections
           run: python .github/scripts/update_readme.py
 
-        # ---------- Commit・pull --rebase・push ----------
+        #---------- Commit & Push ----------
         - name: Commit & Push if Changed
           run: |
             git config user.name  "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
+            # 変更があればコミット
             git add README.md .cache
             git diff --cached --quiet || git commit -m "docs: auto update"
 
-            git fetch origin main
-            git merge --ff-only origin/main || {
-              echo "❌ fast-forward できませんでした。処理を中断します。" ; exit 1 ;
-            }
-
-            # 先端が一致した状態で push
-            git push
+            # push。失敗時（同時実行衝突）は --force-with-lease でリトライ
+            git push || git push --force-with-lease
