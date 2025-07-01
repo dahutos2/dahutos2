@@ -1,0 +1,53 @@
+name: Weekly README Update
+
+on:
+    schedule:
+        - cron: '0 18 * * 0' # UTC 日曜18時＝JST 月曜03時  
+    push:
+        branches: [ main ] # main への push でも実行
+        paths:
+            - 'README.md'
+            - '.github/scripts/**' 
+    workflow_dispatch:
+
+jobs:
+    update-profile:
+      runs-on: ubuntu-latest
+      environment: profile-links
+      env:
+        GH_TOKEN_PRIVATE: ${{ secrets.PROFILE_TOKEN }}   # GraphQL 用 PAT
+        LAPRAS_ID:       ${{ secrets.LAPRAS_ID }}        # Secret
+        PROFILE_LINKS:   ${{ vars.PROFILE_LINKS }}       # 環境変数
+      steps:
+        - uses: actions/checkout@v4
+
+        # ---------- 外部 SVG をキャッシュ ----------
+        - name: GitHub Readme Stats
+          run: |
+            mkdir -p .cache
+            curl -sSL "https://github-readme-stats.vercel.app/api?username=dahutos2&show_icons=true&count_private=true&hide_border=true" > .cache/stats.svg
+            curl -sSL "https://github-readme-stats.vercel.app/api/top-langs/?username=dahutos2&layout=compact&hide_border=true" > .cache/langs.svg
+        
+        # ---------- Trophy----------
+        - name: Generate Trophy SVG
+          run: |
+            docker run --rm -e USERNAME=dahutos2 ghcr.io/ryo-ma/github-profile-trophy > .cache/trophy.svg
+
+
+        # ---------- LAPRAS ----------
+        - name: LAPRAS Card
+          uses: kawamataryo/lapras-card-readme@main
+          with:
+            SHARE_ID: ${{ env.LAPRAS_ID }}
+            LANG: ja
+
+        # ---------- README 生成 ----------
+        - name: Update README sections
+          run: python .github/scripts/update_readme.py
+
+        # ---------- Commit ----------
+        - name: Commit & Push if changed
+          run: |
+            git config user.name  "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git diff --quiet || (git add README.md .cache && git commit -m "docs: auto update" && git push)
