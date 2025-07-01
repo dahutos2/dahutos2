@@ -34,6 +34,7 @@ jobs:
           with:
             SHARE_ID: ${{ env.LAPRAS_ID }}
             LANG: ja
+            UPDATE_TIME: "false"
 
         # ---------- README 生成 ----------
         - name: Update README sections

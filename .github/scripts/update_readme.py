@@ -167,7 +167,12 @@ def main():
         f"(https://github.com/ryo-ma/github-profile-trophy)",
         md,
     )
-    md = md.replace("<!--TIMESTAMP-->", time.strftime("%Y-%m-%d %H:%M:%S %Z"))
+    from datetime import datetime, timezone, timedelta
+
+    jst = datetime.now(timezone.utc) + timedelta(hours=9)
+    stamp = jst.strftime("%Y-%m-%d %H:%M JST")
+    footer = f'<p align="right"><sup>⏰ Updated {stamp}</sup></p>'
+    md += f"\n\n{footer}\n"
     README.write_text(md, encoding="utf-8")
 
 
