@@ -29,12 +29,13 @@ jobs:
             curl -sSL "https://github-readme-stats.vercel.app/api?username=dahutos2&show_icons=true&count_private=true&hide_border=true" > .cache/stats.svg
             curl -sSL "https://github-readme-stats.vercel.app/api/top-langs/?username=dahutos2&layout=compact&hide_border=true" > .cache/langs.svg
         
-        # ---------- Trophy----------
-        - name: Generate Trophy SVG
+        # ---------- Trophy SVG----------
+        - name: Fetch Trophy SVG
           run: |
-            npm install -g github-profile-trophy@0.2.15
-            github-profile-trophy -u dahutos2 -o .cache/trophy.svg -t flat --no-bg
-
+            mkdir -p .cache
+            curl -fSL "https://github-profile-trophy.vercel.app/?username=dahutos2" \
+            -o .cache/trophy.svg \
+            || echo "<svg><!-- trophy fetch failed --></svg>" > .cache/trophy.svg
 
         # ---------- LAPRAS ----------
         - name: LAPRAS Card
