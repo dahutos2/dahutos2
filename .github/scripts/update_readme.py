@@ -4,7 +4,7 @@
 README 自動生成
   • Hero  : links は $PROFILE_LINKS (JSON) > Twitter の優先順
   • Stack : 公開＋プライベート Repo でスコア計算
-  • Stats/Trophy/LAPRAS : キャッシュ SVG 埋め込み
+  • Stats/Trophy : キャッシュ SVG 埋め込み
 """
 from __future__ import annotations
 import json, os, re, time, hashlib, urllib.request, collections
@@ -156,7 +156,6 @@ def main():
     md = repl("stack", stack_md(repos), md)
     md = repl("stats", stats_md(), md)
     md = repl("trophy", svg(".cache/trophy.svg", "trophy"), md)
-    md = repl("lapras", svg(".cache/lapras.svg", "lapras"), md)
     md = md.replace("<!--TIMESTAMP-->", time.strftime("%Y-%m-%d %H:%M:%S %Z"))
     README.write_text(md, encoding="utf-8")
 
