@@ -11,9 +11,13 @@ on:
             - '.github/scripts/**'
     workflow_dispatch:
 
+# 同時に 1 ジョブだけ許可
+concurrency:
+  group: profile-update
+  cancel-in-progress: true
+
 jobs:
     update-profile:
-      if: github.actor != 'github-actions[bot]'
       runs-on: ubuntu-latest
       environment: profile-links
       env:
@@ -58,7 +62,10 @@ jobs:
 
             # 変更があればコミット
             git add README.md .cache
-            git diff --cached --quiet || git commit -m "docs: auto update"
+            git diff --cached --quiet && exit 0
 
-            # push。失敗時（同時実行衝突）は --force-with-lease でリトライ
-            git push || git push --force-with-lease
+            git commit -m "docs: auto update"
+
+            # リモート更新を取り込みつつ安全に上書き
+            git pull --rebase origin main
+            git push --force-with-lease
