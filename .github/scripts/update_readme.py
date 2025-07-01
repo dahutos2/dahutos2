@@ -14,7 +14,7 @@ USER = "dahutos2"
 ROOT = Path(__file__).resolve().parents[2]
 README = ROOT / "README.md"
 
-# ■ スキルレベル定義（調整可）
+# ■ スキルレベル定義
 SKILL_LEVELS = [
     (20, "Expert", "7E3AF2"),
     (10, "Advanced", "10B981"),
@@ -28,12 +28,72 @@ LOGO_COLOR = {
     "Rails": "D30001",
     "Python": "3776AB",
     "TypeScript": "3178C6",
-    "Vue": "41B883",
     "JavaScript": "F7DF1E",
+    "Vue": "41B883",
     "Nuxt": "00C58E",
     "Go": "00ADD8",
     "Shell": "89e051",
     "Java": "B07219",
+    "C": "555555",
+    "C++": "f34b7d",
+    "C#": "178600",
+    "PHP": "777BB4",
+    "Swift": "FA7343",
+    "Kotlin": "A97BFF",
+    "Rust": "DEA584",
+    "Scala": "DC322F",
+    "Perl": "0298C3",
+    "Haskell": "5E5086",
+    "Elixir": "6E4A7E",
+    "Erlang": "B83998",
+    "R": "198CE7",
+    "Objective-C": "438EFF",
+    "Objective-C++": "6866FB",
+    "SQL": "E38C00",
+    "HTML": "E34C26",
+    "CSS": "1572B6",
+    "SCSS": "CD6799",
+    "Less": "1D365D",
+    "Sass": "CC6699",
+    "Markdown": "083FA1",
+    "JSON": "292929",
+    "YAML": "CB171E",
+    "Dockerfile": "384D54",
+    "Makefile": "427819",
+    "Bash": "89E051",
+    "PowerShell": "012456",
+    "Lua": "000080",
+    "GraphQL": "E10098",
+    "CoffeeScript": "244776",
+    "Groovy": "4298B8",
+    "Gradle": "02303A",
+    "Vim script": "199F4B",
+    "Emacs Lisp": "8C7597",
+    "Clojure": "5881D8",
+    "F#": "378BBA",
+    "Assembly": "6E4C13",
+    "MATLAB": "E16737",
+    "Jupyter Notebook": "DA5B0B",
+    "TeX": "3D6117",
+    "LaTeX": "008080",
+    "OpenSCAD": "000000",
+    "Visual Basic": "945DB7",
+    "Ada": "02f88c",
+    "Fortran": "734F96",
+    "VHDL": "adb2cb",
+    "Verilog": "b2b7f8",
+    "SystemVerilog": "DAE1C2",
+    "Crystal": "000100",
+    "Nim": "FFE953",
+    "OCaml": "3BE133",
+    "Elm": "60B5CC",
+    "Reason": "FF5847",
+    "Pug": "A86454",
+    "Handlebars": "F0772B",
+    "HCL": "844FBA",
+    "Terraform": "844FBA",
+    "Ansible": "000000",
+    "SaltStack": "00AA00",
 }
 
 # ■ GraphQL
@@ -116,6 +176,7 @@ def badge(lang, label, lblcol):
 
 
 def stack_md(repos):
+    # 言語スコアの上位10件をバッジ化
     cnt, star = collections.Counter(), collections.Counter()
     for r in repos:
         lang = r["primaryLanguage"]["name"] if r["primaryLanguage"] else None
@@ -138,7 +199,7 @@ def stats_md():
     return "\n\n".join(
         [
             f"![GitHub Stats Card](https://github-readme-stats.vercel.app/api?username={owner}&show_icons=true&count_private=true)",
-            f"![Top Languages Card](https://github-readme-stats.vercel.app/api/top-langs/?username={owner}&layout=compact)",
+            f"![Top Languages Card](https://github-readme-stats.vercel.app/api/top-langs/?username={owner}&layout=compact&hide=jupyter%20notebook)",
         ]
     )
 
