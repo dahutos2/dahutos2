@@ -50,8 +50,10 @@ jobs:
           run: python .github/scripts/update_readme.py
 
         # ---------- Commit ----------
-        - name: Commit & Push if changed
+        - name: Commit if Changed
           run: |
             git config user.name  "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git fetch origin main
+            git rebase origin/main || git merge --ff-only origin/main
             git diff --quiet || (git add README.md .cache && git commit -m "docs: auto update" && git push)
