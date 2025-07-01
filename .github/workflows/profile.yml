@@ -28,21 +28,6 @@ jobs:
       steps:
         - uses: actions/checkout@v4
 
-        # ---------- 外部 SVG をキャッシュ ----------
-        - name: GitHub Readme Stats
-          run: |
-            mkdir -p .cache
-            curl -sSL "https://github-readme-stats.vercel.app/api?username=${{ env.OWNER }}&show_icons=true&count_private=true&hide_border=true" > .cache/stats.svg
-            curl -sSL "https://github-readme-stats.vercel.app/api/top-langs/?username=${{ env.OWNER }}&layout=compact&hide_border=true" > .cache/langs.svg
-        
-        # ---------- Trophy SVG----------
-        - name: Fetch Trophy SVG
-          run: |
-            mkdir -p .cache
-            curl -fSL "https://github-profile-trophy.vercel.app/?username=${{ env.OWNER }}" \
-            -o .cache/trophy.svg \
-            || echo "<svg><!-- trophy fetch failed --></svg>" > .cache/trophy.svg
-
         # ---------- LAPRAS ----------
         - name: LAPRAS Card
           uses: kawamataryo/lapras-card-readme@main
@@ -61,7 +46,7 @@ jobs:
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
             # 変更があればコミット
-            git add README.md .cache
+            git add README.md
             git diff --cached --quiet && exit 0
 
             git commit -m "docs: auto update"

@@ -106,9 +106,11 @@ def classify(score):
 
 
 def badge(lang, label, lblcol):
+    from urllib.parse import quote_plus
+
     base = LOGO_COLOR.get(lang, "888888")
     return (
-        f"https://img.shields.io/badge/{lang}-{label.replace(' ','%20')}-{base}"
+        f"https://img.shields.io/badge/{quote_plus(lang)}-{quote_plus(label)}-{base}"
         f"?logo={lang.lower().replace(' ','')}&logoColor=white&labelColor={lblcol}"
     )
 
@@ -132,8 +134,12 @@ def svg(path, alt):
 
 
 def stats_md():
-    return "\n<br/>\n".join(
-        [svg(".cache/stats.svg", "stats"), svg(".cache/langs.svg", "languages")]
+    owner = os.getenv("OWNER")
+    return "\n\n".join(
+        [
+            f"![GitHub Stats Card](https://github-readme-stats.vercel.app/api?username={owner}&show_icons=true&count_private=true)",
+            f"![Top Languages Card](https://github-readme-stats.vercel.app/api/top-langs/?username={owner}&layout=compact)",
+        ]
     )
 
 
@@ -155,7 +161,12 @@ def main():
     md = repl("hero", hero_md(info), md)
     md = repl("stack", stack_md(repos), md)
     md = repl("stats", stats_md(), md)
-    md = repl("trophy", svg(".cache/trophy.svg", "trophy"), md)
+    md = repl(
+        "trophy",
+        f'[![trophy](https://github-profile-trophy.vercel.app/?username={os.getenv("OWNER")})]'
+        f"(https://github.com/ryo-ma/github-profile-trophy)",
+        md,
+    )
     md = md.replace("<!--TIMESTAMP-->", time.strftime("%Y-%m-%d %H:%M:%S %Z"))
     README.write_text(md, encoding="utf-8")
 
