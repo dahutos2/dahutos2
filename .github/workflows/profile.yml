@@ -7,7 +7,8 @@ on:
         branches: [ main ] # main への push でも実行
         paths:
             - 'README.md'
-            - '.github/scripts/**' 
+            - '.github/workflows/**'
+            - '.github/scripts/**'
     workflow_dispatch:
 
 jobs:
@@ -31,7 +32,8 @@ jobs:
         # ---------- Trophy----------
         - name: Generate Trophy SVG
           run: |
-            docker run --rm -e USERNAME=dahutos2 ghcr.io/ryo-ma/github-profile-trophy > .cache/trophy.svg
+            npm install -g github-profile-trophy@0.2.15
+            github-profile-trophy -u dahutos2 -o .cache/trophy.svg -t flat --no-bg
 
 
         # ---------- LAPRAS ----------
