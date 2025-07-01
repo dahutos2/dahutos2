@@ -28,6 +28,12 @@ jobs:
       steps:
         - uses: actions/checkout@v4
 
+        # -------- Sync Main --------
+        - name: Sync with remote main
+          run: |
+            git fetch origin main
+            git reset --hard origin/main
+
         # ---------- LAPRAS ----------
         - name: LAPRAS Card
           uses: kawamataryo/lapras-card-readme@main
@@ -51,7 +57,4 @@ jobs:
             git diff --cached --quiet && exit 0
 
             git commit -m "docs: auto update"
-
-            # リモート更新を取り込みつつ安全に上書き
-            git pull --rebase origin main
             git push --force-with-lease
