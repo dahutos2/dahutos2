@@ -18,8 +18,8 @@
 <!--END_SECTION:trophy-->
 
 ## ✨ LAPRAS Score
-<!--START_SECTION:lapras-->
+<!--START_SECTION:lapras-card-->
 <!-- 自動生成エリア -->
-<!--END_SECTION:lapras-->
+<!--END_SECTION:lapras-card-->
 
 <p align="center"><i>Last update: <!--TIMESTAMP--></i></p>

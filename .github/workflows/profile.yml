@@ -19,6 +19,7 @@ jobs:
         GH_TOKEN_PRIVATE: ${{ secrets.PROFILE_TOKEN }}   # GraphQL 用 PAT
         LAPRAS_ID:       ${{ secrets.LAPRAS_ID }}        # Secret
         PROFILE_LINKS:   ${{ vars.PROFILE_LINKS }}       # 環境変数
+        OWNER: ${{ github.repository_owner }}            # ユーザー名
       steps:
         - uses: actions/checkout@v4
 
@@ -33,7 +34,7 @@ jobs:
         - name: Fetch Trophy SVG
           run: |
             mkdir -p .cache
-            curl -fSL "https://github-profile-trophy.vercel.app/?username=dahutos2" \
+            curl -fSL "https://github-profile-trophy.vercel.app/?username=${{ env.OWNER }}" \
             -o .cache/trophy.svg \
             || echo "<svg><!-- trophy fetch failed --></svg>" > .cache/trophy.svg
 
