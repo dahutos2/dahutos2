@@ -9,13 +9,16 @@ on:
         - '.github/workflows/**'
         - '.github/scripts/**'
   schedule:
-    - cron: '0 0 * * *'   # 毎日 09:00 JST
+    - cron: '0 18 * * 0' # UTC 日曜18時＝JST 月曜03時
+
+# 同時に 1 ジョブだけ許可
+concurrency:
+  group: profile-update
+  cancel-in-progress: true
 
 jobs:
-  build:
+  update-profile:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write # push 用
     environment: profile-links
     env:
       OWNER: ${{ github.repository_owner }} # ユーザー名
@@ -37,6 +40,12 @@ jobs:
           SHARE_ID: ${{ env.LAPRAS_ID }}
           LANG: ja
           UPDATE_TIME: "false"
+      
+      # -------- Sync Main --------
+      - name: Sync with remote main
+        run: |
+          git fetch origin main
+          git reset --hard origin/main
 
       # ---------- 外部 SVG をキャッシュ ----------
       - name: Cache GitHub Readme Stats
@@ -80,10 +89,15 @@ jobs:
       - name: Update README
         run: python .github/scripts/update_readme.py
 
-      # ---------- Commit & Push ----------
-      - uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: 'chore: auto update profile'
-          branch: main
-          commit_user_name: github-actions[bot]
-          commit_user_email: 41898282+github-actions[bot]@users.noreply.github.com
+      #---------- Commit & Push ----------
+      - name: Commit & Push if Changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # 変更があればコミット
+          git add README.md
+          git diff --cached --quiet && exit 0
+
+          git commit -m "docs: auto update"
+          git push --force-with-lease
