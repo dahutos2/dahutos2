@@ -167,11 +167,11 @@ def classify(v: float) -> str:
 
 
 def badge(lang: str, lvl: str) -> str:
-    base = LOGO_COLOR.get(lang, "888888")
-    lbl = LEVEL_COLOR[lvl]
+    lang_col = LOGO_COLOR.get(lang, "888888")
+    lvl_col = LEVEL_COLOR[lvl]
     return (
-        f"https://img.shields.io/badge/{quote_plus(lang)}-{quote_plus(lvl)}-{base}"
-        f"?logo={lang.lower().replace(' ','')}&logoColor=white&labelColor={lbl}"
+        f"https://img.shields.io/badge/{quote_plus(lang)}-{quote_plus(lvl)}-{lvl_col}"
+        f"?logo={lang.lower().replace(' ','')}&logoColor=white&labelColor={lang_col}"
     )
 
 
