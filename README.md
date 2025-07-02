@@ -14,11 +14,11 @@
 <!--START_SECTION:stack-->
 ### Advanced
 
-![Python](https://img.shields.io/badge/Python-Advanced-3776AB?logo=python&logoColor=white&labelColor=10B981) ![Dart](https://img.shields.io/badge/Dart-Advanced-0175C2?logo=dart&logoColor=white&labelColor=10B981)
+![Python](https://img.shields.io/badge/Python-Advanced-10B981?logo=python&logoColor=white&labelColor=3776AB) ![Dart](https://img.shields.io/badge/Dart-Advanced-10B981?logo=dart&logoColor=white&labelColor=0175C2)
 
 ### Beginner
 
-![Jupyter Notebook](https://img.shields.io/badge/Jupyter+Notebook-Beginner-DA5B0B?logo=jupyternotebook&logoColor=white&labelColor=EF4444) ![Java](https://img.shields.io/badge/Java-Beginner-B07219?logo=java&logoColor=white&labelColor=EF4444) ![TypeScript](https://img.shields.io/badge/TypeScript-Beginner-3178C6?logo=typescript&logoColor=white&labelColor=EF4444) ![HTML](https://img.shields.io/badge/HTML-Beginner-E34C26?logo=html&logoColor=white&labelColor=EF4444) ![Other](https://img.shields.io/badge/Other-Beginner-888888?logo=other&logoColor=white&labelColor=EF4444) ![C#](https://img.shields.io/badge/C%23-Beginner-178600?logo=c#&logoColor=white&labelColor=EF4444) ![JavaScript](https://img.shields.io/badge/JavaScript-Beginner-F7DF1E?logo=javascript&logoColor=white&labelColor=EF4444)
+![Jupyter Notebook](https://img.shields.io/badge/Jupyter+Notebook-Beginner-EF4444?logo=jupyternotebook&logoColor=white&labelColor=DA5B0B) ![Java](https://img.shields.io/badge/Java-Beginner-EF4444?logo=java&logoColor=white&labelColor=B07219) ![TypeScript](https://img.shields.io/badge/TypeScript-Beginner-EF4444?logo=typescript&logoColor=white&labelColor=3178C6) ![HTML](https://img.shields.io/badge/HTML-Beginner-EF4444?logo=html&logoColor=white&labelColor=E34C26) ![Other](https://img.shields.io/badge/Other-Beginner-EF4444?logo=other&logoColor=white&labelColor=888888) ![C#](https://img.shields.io/badge/C%23-Beginner-EF4444?logo=c#&logoColor=white&labelColor=178600) ![JavaScript](https://img.shields.io/badge/JavaScript-Beginner-EF4444?logo=javascript&logoColor=white&labelColor=F7DF1E)
 <!--END_SECTION:stack-->
 
 ## 📊 Stats & Streak
@@ -45,5 +45,5 @@
 <!--END_SECTION:trophy-->
 
 <!--START_SECTION:footer-->
-<p align="right"><sup>⏰ Updated 2025-07-02 23:47 JST</sup></p>
+<p align="right"><sup>⏰ Updated 2025-07-02 23:54 JST</sup></p>
 <!--END_SECTION:footer-->
