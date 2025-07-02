@@ -1,11 +1,20 @@
 <!--START_SECTION:hero-->
-<h1 align="center">Daichi Okumura (dahutos2)</h1>
-<p align="center"><br/><a href="https://x.com/dahutos1">X / Twitter</a></p>
+<h1 align="center">👋 Daichi Okumura</h1>
+<p align="center"><strong>@dahutos2</strong></p>
+<p align="center"><a href="https://x.com/dahutos1">X / Twitter</a></p>
+<p>Full-stack developer / Flutter etc…</p>
+<p align="center">📍 Osaka</p>
 <!--END_SECTION:hero-->
 
 ## 🛠 Tech Stack
 <!--START_SECTION:stack-->
-![Python](https://img.shields.io/badge/Python-Advanced-3776AB?logo=python&logoColor=white&labelColor=10B981) ![Dart](https://img.shields.io/badge/Dart-Advanced-0175C2?logo=dart&logoColor=white&labelColor=10B981) ![Jupyter Notebook](https://img.shields.io/badge/Jupyter+Notebook-Beginner-DA5B0B?logo=jupyternotebook&logoColor=white&labelColor=EF4444) ![PHP](https://img.shields.io/badge/PHP-Beginner-777BB4?logo=php&logoColor=white&labelColor=EF4444) ![Java](https://img.shields.io/badge/Java-Beginner-B07219?logo=java&logoColor=white&labelColor=EF4444) ![JavaScript](https://img.shields.io/badge/JavaScript-Beginner-F7DF1E?logo=javascript&logoColor=white&labelColor=EF4444) ![HTML](https://img.shields.io/badge/HTML-Beginner-E34C26?logo=html&logoColor=white&labelColor=EF4444) ![TypeScript](https://img.shields.io/badge/TypeScript-Beginner-3178C6?logo=typescript&logoColor=white&labelColor=EF4444) ![CSS](https://img.shields.io/badge/CSS-Beginner-1572B6?logo=css&logoColor=white&labelColor=EF4444) ![Vue](https://img.shields.io/badge/Vue-Beginner-41B883?logo=vue&logoColor=white&labelColor=EF4444)
+### Advanced
+
+https://img.shields.io/badge/Python-Advanced-3776AB?logo=python&logoColor=white&labelColor=10B981 https://img.shields.io/badge/Dart-Advanced-0175C2?logo=dart&logoColor=white&labelColor=10B981
+
+### Beginner
+
+https://img.shields.io/badge/Jupyter+Notebook-Beginner-DA5B0B?logo=jupyternotebook&logoColor=white&labelColor=EF4444 https://img.shields.io/badge/PHP-Beginner-777BB4?logo=php&logoColor=white&labelColor=EF4444 https://img.shields.io/badge/Java-Beginner-B07219?logo=java&logoColor=white&labelColor=EF4444 https://img.shields.io/badge/JavaScript-Beginner-F7DF1E?logo=javascript&logoColor=white&labelColor=EF4444 https://img.shields.io/badge/HTML-Beginner-E34C26?logo=html&logoColor=white&labelColor=EF4444 https://img.shields.io/badge/TypeScript-Beginner-3178C6?logo=typescript&logoColor=white&labelColor=EF4444 https://img.shields.io/badge/CSS-Beginner-1572B6?logo=css&logoColor=white&labelColor=EF4444 https://img.shields.io/badge/Vue-Beginner-41B883?logo=vue&logoColor=white&labelColor=EF4444 https://img.shields.io/badge/Ruby-Beginner-CC342D?logo=ruby&logoColor=white&labelColor=EF4444 https://img.shields.io/badge/C%23-Beginner-178600?logo=c#&logoColor=white&labelColor=EF4444
 <!--END_SECTION:stack-->
 
 ## 📈 GitHub Statistics
@@ -17,6 +26,7 @@
 
 ## ✒️ Contributions
 <!--START_SECTION:contrib-->
+![Contribution Graph](https://github-readme-activity-graph.cyclic.app/graph?username=dahutos2&theme=github)
 <!--END_SECTION:contrib-->
 
 ## 🏆 Achievements
@@ -30,5 +40,5 @@
 <!--END_SECTION:lapras-card-->
 
 <!--START_SECTION:footer-->
-<p align="right"><sup>⏰ Updated 2025-07-02 09:00 JST</sup></p>
+<p align="right"><sup>⏰ Updated 2025-07-02 22:27 JST</sup></p>
 <!--END_SECTION:footer-->
