@@ -3,15 +3,10 @@
 <!--END_SECTION:badges-->
 
 <!--START_SECTION:hero-->
-<table width="100%">
-  <tr>
-    <td width="50%" valign="top"><h1>👋 Daichi Okumura</h1><br/>
-<p>Full-stack developer / Flutter etc…</p></td>
-    <td width="50%" valign="top" align="right"><strong>@dahutos2</strong><br/>
-<a href="https://x.com/dahutos1">X / Twitter</a><br/>
-📍 Osaka, Japan</td>
-  </tr>
-</table>
+<h1 align="center">👋 Daichi Okumura</h1>
+<p align="center">@dahutos2 ｜ <a href="https://x.com/dahutos1">X / Twitter</a></p>
+<p align="center">Full-stack developer / Flutter etc…</p>
+<p align="center">📍 Osaka, Japan</p>
 <!--END_SECTION:hero-->
 
 ## 🛠 Tech Stack
@@ -57,5 +52,5 @@
 <!--END_SECTION:trophy-->
 
 <!--START_SECTION:footer-->
-<p align="right"><sup>⏰ Updated 2025-07-03 00:45 JST</sup></p>
+<p align="right"><sup>⏰ Updated 2025-07-03 00:49 JST</sup></p>
 <!--END_SECTION:footer-->
