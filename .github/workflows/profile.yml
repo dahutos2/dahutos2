@@ -30,10 +30,6 @@ jobs:
       # リポジトリチェックアウト
       - uses: actions/checkout@v4
 
-      # assets ディレクトリ作成
-      - name: Prepare assets dir
-        run: mkdir -p assets
-
       - name: LAPRAS Card
         uses: kawamataryo/lapras-card-readme@main
         with:
@@ -47,12 +43,31 @@ jobs:
           git fetch origin main
           git reset --hard origin/main
 
-      # ---------- 外部 SVG をキャッシュ ----------
-      - name: Cache GitHub Readme Stats
-        run: |
-          curl -sSL "https://fabianocouto-readme-stats.vercel.app/api?username=${OWNER}&show_icons=true&count_private=true" -o assets/stats.svg
-          curl -sSL "https://fabianocouto-readme-streak-stats.vercel.app/?user=${OWNER}" -o assets/streak-stats.svg
-          curl -sSL "https://fabianocouto-activity-graph.vercel.app/graph/?username=${OWNER}&theme=github-dark-dimmed&radius=6&area=true" -o assets/activity-graph.svg
+      - name: Download stats
+        run: curl 'https://fabianocouto-readme-stats.vercel.app/api?username=${OWNER}&show_icons=true&include_all_commits=true&count_private=true&theme=github_dark_dimmed&hide=stars&line_height=28&rank_icon=github' -o stats.svg
+
+      - name: Download streak stats
+        run: curl 'https://fabianocouto-readme-streak-stats.vercel.app/?user=${OWNER}&background=24292f&border=373e47&stroke=373e47&currStreakNum=adbac7&sideNums=adbac7&sideLabels=adbac7&dates=adbac7&ring=539bf5&currStreakLabel=539bf5&fire=539bf5' -o streak-stats.svg
+
+      - name: Download activity graph
+        run: curl 'https://fabianocouto-activity-graph.vercel.app/graph/?username=${OWNER}&theme=github-dark-dimmed&radius=6&area=true' -o activity-graph.svg
+
+      - name: Download wakatime
+        run: curl 'https://fabianocouto-readme-stats.vercel.app/api/wakatime?username=${OWNER}&range=all_time&theme=github_dark_dimmed&layout=compact' -o wakatime.svg
+
+      - name: Download top languages
+        run: curl 'https://fabianocouto-readme-stats.vercel.app/api/top-langs/?username=${OWNER}&layout=compact&langs_count=10&theme=github_dark_dimmed' -o top-langs.svg
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: assets
+          path: |
+            stats.svg
+            streak-stats.svg
+            activity-graph.svg
+            wakatime.svg
+            top-langs.svg        
 
       # ---------- 軽量 JSON を生成 (ユーザ/Bio/Repo 言語+スター) ----------
       - name: Generate info.json & repos.json

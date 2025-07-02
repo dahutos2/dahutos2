@@ -1,14 +1,23 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-README 自動生成 – JSON(assets/info.json・repos.json)＋キャッシュ SVG を利用
-  • Badges       : Views  +  Wakatime (任意)
-  • Hero         : 中央寄せタイトル / ハンドル，リンク行，自己紹介(bio)，所在地
-  • Stack        : 全リポジトリ言語をレベル分類バッジ
-  • Stats Row    : stats.svg + streak-stats.svg を横並び
-  • Contributions: activity-graph.svg
-  • Trophy       : GitHub Profile Trophy (外部呼び出し)
-  • Footer       : JST 時刻をマーカー置換
+README 自動生成スクリプト
+──────────────────────────────────────────────
+ワークフロー側で
+  • assets/stats.svg
+  • assets/streak-stats.svg
+  • assets/wakatime.svg
+  • assets/top-langs.svg
+  • assets/activity-graph.svg
+  • assets/info.json           ← name / bio / location
+  • assets/repos.json          ← [{language, stars}, …]
+を準備済みとし、本スクリプトは
+  1) JSON を読み込んで Hero・Stack を構築
+  2) キャッシュ済み SVG を配置
+  3) SECTION コメントで README を置換
+  4) 更新日時をフッタに書き込む
+Environment      : OWNER / PROFILE_LINKS / WAKATIME_USER
+Secrets (workflow): PROFILE_TOKEN （GraphQL 用 PAT）等
 """
 
 from __future__ import annotations
@@ -17,14 +26,14 @@ from pathlib import Path
 from datetime import datetime, timezone, timedelta
 from urllib.parse import quote_plus
 
-# ---------- 基本 ----------
+# ────────────────────────── 基本設定
 ROOT = Path(__file__).resolve().parents[2]
 README = ROOT / "README.md"
 OWNER = os.getenv("OWNER") or Path.cwd().parts[-1]
 
-# ---------- レベル & カラー ----------
+# ────────────────────────── スキルレベル & 色
 LEVELS = [(20, "Expert"), (10, "Advanced"), (5, "Intermediate"), (1, "Beginner")]
-LEVEL_COLOR = {
+LEVEL_COLOR = {  # レベル別ラベル色
     "Expert": "7E3AF2",
     "Advanced": "10B981",
     "Intermediate": "F59E0B",
@@ -32,7 +41,7 @@ LEVEL_COLOR = {
     "Newbie": "9CA3AF",
 }
 
-# ---------- 言語ロゴ色（省略せずに保持） ----------
+# ────────────────────────── 言語→ロゴ色（全量保持）
 LOGO_COLOR = {
     "Dart": "0175C2",
     "Flutter": "02569B",
@@ -109,51 +118,47 @@ LOGO_COLOR = {
 }
 
 
-# ---------- 共通置換関数 ----------
+# ────────────────────────── Util：SECTION 置換
 def repl(tag: str, new: str, text: str) -> str:
-    pattern = rf"<!--START_SECTION:{tag}-->(.*?)<!--END_SECTION:{tag}-->"
+    pat = rf"<!--START_SECTION:{tag}-->(.*?)<!--END_SECTION:{tag}-->"
     return re.sub(
-        pattern,
+        pat,
         f"<!--START_SECTION:{tag}-->\n{new}\n<!--END_SECTION:{tag}-->",
         text,
         flags=re.S,
     )
 
 
-# ---------- ビュー & Wakatime バッジ ----------
-def small_badges() -> str:
+# ────────────────────────── Badges（Views / Wakatime）
+def badges_row() -> str:
     views = f"![Views](https://komarev.com/ghpvc/?username={OWNER}&style=flat)"
-    waka_badge = ""
-    wak_user = os.getenv("WAKATIME_USER")
-    if wak_user:
-        waka_badge = (
-            f"[![wakatime](https://wakatime.com/badge/user/{wak_user}.svg)]"
-            f"(https://wakatime.com/@{wak_user})"
-        )
-    return " ".join(filter(None, [views, waka_badge]))
+    waka = ""
+    if uid := os.getenv("WAKATIME_USER"):
+        waka = f"[![wakatime](https://wakatime.com/badge/user/{uid}.svg)](https://wakatime.com/@{uid})"
+    return " ".join(filter(None, [views, waka]))
 
 
-# ---------- Hero ----------
+# ────────────────────────── Hero
 def hero(info: dict) -> str:
-    name_html = f'<h1 align="center">👋 {info["name"]}</h1>'
-    user_html = f'<p align="center"><strong>@{OWNER}</strong></p>'
+    parts = [
+        f'<h1 align="center">👋 {info["name"]}</h1>',
+        f'<p align="center"><strong>@{OWNER}</strong></p>',
+    ]
     # 外部リンク
-    links_html = ""
-    links = json.loads(os.getenv("PROFILE_LINKS", "[]"))
+    links = json.loads(os.getenv("PROFILE_LINKS") or "[]")
     if links:
         row = " ・ ".join(f'<a href="{l["url"]}">{l["title"]}</a>' for l in links)
-        links_html = f'<p align="center">{row}</p>'
-    # Bio / Location
-    bio_html = f'<p>{info["bio"].strip()}</p>' if info.get("bio") else ""
-    loc_html = (
-        f'<p align="center">📍 {info["location"]}</p>' if info.get("location") else ""
-    )
-    return "\n".join(
-        filter(None, [name_html, user_html, links_html, bio_html, loc_html])
-    )
+        parts.append(f'<p align="center">{row}</p>')
+    # Bio
+    if info.get("bio"):
+        parts.append(f'<p>{info["bio"].strip()}</p>')
+    # Location
+    if info.get("location"):
+        parts.append(f'<p align="center">📍 {info["location"]}</p>')
+    return "\n".join(parts)
 
 
-# ---------- Stack ----------
+# ────────────────────────── Stack
 def classify(v: float) -> str:
     for th, lvl in LEVELS:
         if v >= th:
@@ -166,11 +171,11 @@ def badge(lang: str, lvl: str) -> str:
     lbl = LEVEL_COLOR[lvl]
     return (
         f"https://img.shields.io/badge/{quote_plus(lang)}-{quote_plus(lvl)}-{base}"
-        f"?logo={lang.lower()}&logoColor=white&labelColor={lbl}"
+        f"?logo={lang.lower().replace(' ','')}&logoColor=white&labelColor={lbl}"
     )
 
 
-def stack(repos: list[dict]) -> str:
+def build_stack(repos: list[dict]) -> str:
     cnt, star = collections.Counter(), collections.Counter()
     for r in repos:
         cnt[r["language"]] += 1
@@ -181,52 +186,59 @@ def stack(repos: list[dict]) -> str:
     for lang, val in score.items():
         grouped[classify(val)].append((lang, val))
 
-    out = []
+    out: list[str] = []
     for lvl in ["Expert", "Advanced", "Intermediate", "Beginner", "Newbie"]:
-        if lvl not in grouped:
+        langs = grouped.get(lvl)
+        if not langs:
             continue
         out.append(f"### {lvl}")
         out.append(
             " ".join(
-                badge(l, lvl)
-                for l, _ in sorted(grouped[lvl], key=lambda t: t[1], reverse=True)
+                f"![{lang}]({badge(lang, lvl)})"
+                for lang, _ in sorted(langs, key=lambda t: t[1], reverse=True)
             )
         )
     return "\n\n".join(out)
 
 
-# ---------- Stats Row ----------
-def stats_row() -> str:
-    stats = '<img src="assets/stats.svg" width="49.3%" align="left"/>'
-    streak = '<img src="assets/streak-stats.svg" width="49.3%"/>'
-    return f"<div>{stats}{streak}</div>\n<br/>"
+# ────────────────────────── Stats & Streak + Wakatime & Top-Langs (2 行)
+def stats_block() -> str:
+    row1 = (
+        '<img src="assets/stats.svg" width="49.3%" align="left"/>'
+        '<img src="assets/streak-stats.svg" width="49.3%"/>'
+    )
+    row2 = (
+        '<img src="assets/wakatime.svg" width="49.3%" align="left"/>'
+        '<img src="assets/top-langs.svg" width="49.3%"/>'
+    )
+    return f"<div>{row1}</div>\n<br/>\n<div>{row2}</div>\n<br/>"
 
 
-# ---------- Contributions ----------
-def contrib() -> str:
+# ────────────────────────── Contribution Graph
+def contrib_graph() -> str:
     return '<img src="assets/activity-graph.svg" width="100%"/>'
 
 
-# ---------- メイン処理 ----------
-def main():
-    # 事前にワークフローで生成済み JSON を読む
+# ────────────────────────── メイン処理
+def main() -> None:
     info = json.loads(Path("assets/info.json").read_text())
     repos = json.loads(Path("assets/repos.json").read_text())
-
     md = README.read_text()
 
-    md = repl("badges", small_badges(), md)
+    md = repl("badges", badges_row(), md)
     md = repl("hero", hero(info), md)
-    md = repl("stack", stack(repos), md)
-    md = repl("stats", stats_row(), md)
-    md = repl("contrib", contrib(), md)
-    md = repl(
-        "trophy",
-        f"[![trophy](https://github-profile-trophy.vercel.app/?username={OWNER})]"
-        f"(https://github.com/ryo-ma/github-profile-trophy)",
-        md,
-    )
+    md = repl("stack", build_stack(repos), md)
+    md = repl("stats", stats_block(), md)
+    md = repl("contrib", contrib_graph(), md)
 
+    # Trophy (外部呼び出し)
+    trophy_tag = (
+        "[![trophy](https://github-profile-trophy.vercel.app/?username="
+        f"{OWNER})](https://github.com/ryo-ma/github-profile-trophy)"
+    )
+    md = repl("trophy", trophy_tag, md)
+
+    # 更新日時
     ts = (datetime.now(timezone.utc) + timedelta(hours=9)).strftime(
         "%Y-%m-%d %H:%M JST"
     )
