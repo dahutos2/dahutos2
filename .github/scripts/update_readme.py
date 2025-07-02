@@ -133,7 +133,7 @@ def repl(tag: str, new: str, text: str) -> str:
 def badges_row() -> str:
     views = f"![Views](https://komarev.com/ghpvc/?username={OWNER}&style=flat)"
     waka = ""
-    if uid := os.getenv("WAKATIME_USER"):
+    if uid := os.getenv("WAKA_TIME_SVG_ID"):
         waka = (
             f"[![wakatime](https://wakatime.com/badge/user/{uid}.svg)]"
             f"(https://wakatime.com/@{uid})"
@@ -141,37 +141,49 @@ def badges_row() -> str:
     return " ".join(filter(None, [views, waka]))
 
 
-# ────────────────────────── Hero
+# ────────────────────────── Hero（簡潔センタリング）
 def hero(info: dict) -> str:
     """
-    • タイトル / ハンドル / 外部リンク … 中央寄せ
-    • Bio                                   … 左寄せ
-    • Location                              … 中央寄せ
-    ────────────────────────────────────────
-    GitHub の README は <div align="center"> でまとめると
-    子要素が中央寄せされるため、Bio は div 外に配置。
+    左カラム : 氏名タイトル + Bio
+    右カラム : ハンドル名 / 外部リンク / ロケーション
+    各カラム幅は 50% 固定。テーブルなのでモバイルでも自然に縦積みされる。
     """
-    # ---------- Center block ----------
-    center_lines: list[str] = [
-        f'<h1>👋 {info["name"]}</h1>',
-        f"<strong>@{OWNER}</strong>",
-    ]
 
-    # 外部リンク
-    links = json.loads(os.getenv("PROFILE_LINKS") or "[]")
-    if links:
-        row = " · ".join(f'<a href="{l["url"]}">{l["title"]}</a>' for l in links)
-        center_lines.append(row)
+    # ---------- データ取得 ----------
+    name = info["name"]
+    bio = (info.get("bio") or "").strip().replace("\n", " ")
+    location = info.get("location") or ""
+    links_cfg = json.loads(os.getenv("PROFILE_LINKS") or "[]")
 
-    center_block = '<div align="center">\n' + "<br/>\n".join(center_lines) + "\n</div>"
+    # ---------- 左カラム ----------
+    left_parts = [f"<h1>👋 {name}</h1>"]
+    if bio:
+        left_parts.append(f"<p>{bio}</p>")
+    left_td = "<br/>\n".join(left_parts)
 
-    # ---------- Bio (left) ----------
-    bio = f'<p>{info["bio"].strip()}</p>' if info.get("bio") else ""
+    # ---------- 右カラム ----------
+    right_lines = [f"<strong>@{OWNER}</strong>"]
 
-    # ---------- Location ----------
-    loc = f'<p align="center">📍 {info["location"]}</p>' if info.get("location") else ""
+    # 外部リンク（1 行ずつ）
+    for l in links_cfg:
+        right_lines.append(f'<a href="{l["url"]}">{l["title"]}</a>')
 
-    return "\n\n".join(filter(None, [center_block, bio, loc]))
+    if location:
+        right_lines.append(f"📍 {location}")
+
+    right_td = "<br/>\n".join(right_lines)
+
+    # ---------- テーブル結合 ----------
+    hero_html = f"""
+<table width="100%">
+  <tr>
+    <td width="50%" valign="top">{left_td}</td>
+    <td width="50%" valign="top" align="right">{right_td}</td>
+  </tr>
+</table>
+""".strip()
+
+    return hero_html
 
 
 # ────────────────────────── Stack
@@ -225,7 +237,7 @@ def stats_block() -> str:
     streak = f'<img src="assets/streak-stats.svg"  alt="{OWNER} streak" width="48.7%"/>'
     graph = f'<img src="assets/activity-graph.svg" alt="{OWNER} graph" width="99.8%"/>'
     waka = '<img src="assets/wakatime.svg" alt="wakatime" width="49.5%" align="left"/>'
-    langs = '<img src="assets/top-langs.svg alt="top langs" width="48%"/>'
+    langs = '<img src="assets/top-langs.svg" alt="top langs" width="48%"/>'
 
     return (
         '<div class="d-block">\n'
