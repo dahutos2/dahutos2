@@ -1,12 +1,16 @@
 <!--START_SECTION:badges-->
-![Views](https://komarev.com/ghpvc/?username=dahutos2&style=flat) [![wakatime](https://wakatime.com/badge/user/dahutos2.svg)](https://wakatime.com/@dahutos2)
+![Views](https://komarev.com/ghpvc/?username=dahutos2&style=flat)
 <!--END_SECTION:badges-->
 
 <!--START_SECTION:hero-->
-<h1 align="center">👋 Daichi Okumura</h1>
-<p align="center"><strong>@dahutos2</strong></p>
-<p align="center"><a href="https://x.com/dahutos1">X / Twitter</a></p>
+<div align="center">
+<h1>👋 Daichi Okumura</h1><br/>
+<strong>@dahutos2</strong><br/>
+<a href="https://x.com/dahutos1">X / Twitter</a>
+</div>
+
 <p>Full-stack developer / Flutter etc…</p>
+
 <p align="center">📍 Osaka</p>
 <!--END_SECTION:hero-->
 
@@ -23,10 +27,18 @@
 
 ## 📊 Stats & Streak
 <!--START_SECTION:stats-->
-<div><img src="assets/stats.svg" width="49.3%" align="left"/><img src="assets/streak-stats.svg" width="49.3%"/></div>
+<div class="d-block">
+  <img src="assets/stats.svg" alt="dahutos2 stats"  width="48.7%" align="left"/>
+  <img src="assets/streak-stats.svg"  alt="dahutos2 streak" width="48.7%"/>
+</div>
 <br/>
-<div><img src="assets/wakatime.svg" width="49.3%" align="left"/><img src="assets/top-langs.svg" width="49.3%"/></div>
-<br/>
+<img src="assets/activity-graph.svg" alt="dahutos2 graph" width="99.8%"/>
+
+---
+<div class="d-block">
+  <img src="assets/wakatime.svg" alt="wakatime" width="49.5%" align="left"/>
+  <img src="assets/top-langs.svg alt="top langs" width="48%"/>
+</div>
 <!--END_SECTION:stats-->
 
 ## ⌛ Coding Activity (Year-to-date)
@@ -45,5 +57,5 @@
 <!--END_SECTION:trophy-->
 
 <!--START_SECTION:footer-->
-<p align="right"><sup>⏰ Updated 2025-07-03 00:04 JST</sup></p>
+<p align="right"><sup>⏰ Updated 2025-07-03 00:32 JST</sup></p>
 <!--END_SECTION:footer-->
