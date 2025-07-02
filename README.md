@@ -15,6 +15,10 @@
 ![Top Languages Card](https://github-readme-stats.vercel.app/api/top-langs/?username=dahutos2&layout=compact&hide=jupyter%20notebook)
 <!--END_SECTION:stats-->
 
+## ✒️ Contributions
+<!--START_SECTION:contrib-->
+<!--END_SECTION:contrib-->
+
 ## 🏆 Achievements
 <!--START_SECTION:trophy-->
 [![trophy](https://github-profile-trophy.vercel.app/?username=dahutos2)](https://github.com/ryo-ma/github-profile-trophy)
