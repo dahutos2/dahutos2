@@ -1,17 +1,17 @@
 <!--START_SECTION:badges-->
-![Views](https://komarev.com/ghpvc/?username=dahutos2&style=flat)
+![Views](https://komarev.com/ghpvc/?username=dahutos2&style=flat) [![wakatime](https://wakatime.com/badge/user/c237e69b-fa39-4ba2-a360-b780198261b0.svg)](https://wakatime.com/@c237e69b-fa39-4ba2-a360-b780198261b0)
 <!--END_SECTION:badges-->
 
 <!--START_SECTION:hero-->
-<div align="center">
-<h1>👋 Daichi Okumura</h1><br/>
-<strong>@dahutos2</strong><br/>
-<a href="https://x.com/dahutos1">X / Twitter</a>
-</div>
-
-<p>Full-stack developer / Flutter etc…</p>
-
-<p align="center">📍 Osaka</p>
+<table width="100%">
+  <tr>
+    <td width="50%" valign="top"><h1>👋 Daichi Okumura</h1><br/>
+<p>Full-stack developer / Flutter etc…</p></td>
+    <td width="50%" valign="top" align="right"><strong>@dahutos2</strong><br/>
+<a href="https://x.com/dahutos1">X / Twitter</a><br/>
+📍 Osaka, Japan</td>
+  </tr>
+</table>
 <!--END_SECTION:hero-->
 
 ## 🛠 Tech Stack
@@ -37,7 +37,7 @@
 ---
 <div class="d-block">
   <img src="assets/wakatime.svg" alt="wakatime" width="49.5%" align="left"/>
-  <img src="assets/top-langs.svg alt="top langs" width="48%"/>
+  <img src="assets/top-langs.svg" alt="top langs" width="48%"/>
 </div>
 <!--END_SECTION:stats-->
 
@@ -57,5 +57,5 @@
 <!--END_SECTION:trophy-->
 
 <!--START_SECTION:footer-->
-<p align="right"><sup>⏰ Updated 2025-07-03 00:32 JST</sup></p>
+<p align="right"><sup>⏰ Updated 2025-07-03 00:45 JST</sup></p>
 <!--END_SECTION:footer-->
