@@ -1,60 +1,88 @@
-name: Weekly README Update
+name: Update Profile
 
 on:
-    schedule:
-        - cron: '0 18 * * 0' # UTC 日曜18時＝JST 月曜03時  
-    push:
-        branches: [ main ] # main への push でも実行
-        paths:
-            - 'README.md'
-            - '.github/workflows/**'
-            - '.github/scripts/**'
-    workflow_dispatch:
-
-# 同時に 1 ジョブだけ許可
-concurrency:
-  group: profile-update
-  cancel-in-progress: true
+  workflow_dispatch:
+  push:
+    branches: [ main ] # main への push でも実行   
+    paths:
+        - 'README.md'
+        - '.github/workflows/**'
+        - '.github/scripts/**'
+  schedule:
+    - cron: '0 0 * * *'   # 毎日 09:00 JST
 
 jobs:
-    update-profile:
-      runs-on: ubuntu-latest
-      environment: profile-links
-      env:
-        GH_TOKEN_PRIVATE: ${{ secrets.PROFILE_TOKEN }}   # GraphQL 用 PAT
-        LAPRAS_ID:       ${{ secrets.LAPRAS_ID }}        # Secret
-        PROFILE_LINKS:   ${{ vars.PROFILE_LINKS }}       # 環境変数
-        OWNER: ${{ github.repository_owner }}            # ユーザー名
-      steps:
-        - uses: actions/checkout@v4
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write        # push 用
+    env:
+      OWNER: ${{ github.repository_owner }} # ユーザー名
+      GH_TOKEN_PRIVATE: ${{ secrets.PROFILE_TOKEN }} # GraphQL 用 PAT
+      LAPRAS_ID: ${{ secrets.LAPRAS_ID }} # Secret
+      PROFILE_LINKS: ${{ vars.PROFILE_LINKS }} # プロフィールリンク
+      WAKATIME_USER: ${{ vars.WAKATIME_USER }} # WakaTimeユーザー名
+    steps:
+      # リポジトリチェックアウト
+      - uses: actions/checkout@v4
 
-        # ---------- LAPRAS ----------
-        - name: LAPRAS Card
-          uses: kawamataryo/lapras-card-readme@main
-          with:
-            SHARE_ID: ${{ env.LAPRAS_ID }}
-            LANG: ja
-            UPDATE_TIME: "false"
-        
-        # -------- Sync Main --------
-        - name: Sync with remote main
-          run: |
-            git fetch origin main
-            git reset --hard origin/main
+      # assets ディレクトリ作成
+      - name: Prepare assets dir
+        run: mkdir -p assets
 
-        # ---------- README 生成 ----------
-        - name: Update README sections
-          run: python .github/scripts/update_readme.py
+      - name: LAPRAS Card
+        uses: kawamataryo/lapras-card-readme@main
+        with:
+          SHARE_ID: ${{ env.LAPRAS_ID }}
+          LANG: ja
+          UPDATE_TIME: "false"
 
-        #---------- Commit & Push ----------
-        - name: Commit & Push if Changed
-          run: |
-            git config user.name  "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      # ---------- 外部 SVG をキャッシュ ----------
+      - name: Cache GitHub Readme Stats
+        run: |
+          curl -sSL "https://fabianocouto-readme-stats.vercel.app/api?username=${OWNER}&show_icons=true&count_private=true" -o assets/stats.svg
+          curl -sSL "https://fabianocouto-readme-streak-stats.vercel.app/?user=${OWNER}" -o assets/streak-stats.svg
+          curl -sSL "https://fabianocouto-activity-graph.vercel.app/graph/?username=${OWNER}&theme=github-dark-dimmed&radius=6&area=true" -o assets/activity-graph.svg
 
-            # 変更があればコミット
-            git add README.md
-            git diff --cached --quiet && exit 0
+      # ---------- 軽量 JSON を生成 (ユーザ/Bio/Repo 言語+スター) ----------
+      - name: Generate info.json & repos.json
+        run: |
+          python - <<'PY'
+          import json, os, urllib.request, pathlib, math
+          owner = os.environ["OWNER"]
+          HEAD  = {'Authorization': f"token {os.environ['GH_TOKEN_PRIVATE']}"}
 
-            git commit -m "docs: auto update"
-            git push --force-with-lease
+          # ---- User Info ----
+          user = json.loads(urllib.request.urlopen(
+              urllib.request.Request(f"https://api.github.com/users/{owner}",headers=HEAD)).read())
+          pathlib.Path("assets/info.json").write_text(json.dumps({
+              "name": user["name"] or owner,
+              "bio":  user["bio"]  or "",
+              "location": user["location"] or ""
+          }, ensure_ascii=False))
+
+          # ---- Repo Stats ----
+          repos, page = [], 1
+          while True:
+              url=f"https://api.github.com/users/{owner}/repos?per_page=100&page={page}"
+              data=json.loads(urllib.request.urlopen(
+                  urllib.request.Request(url,headers=HEAD)).read())
+              if not data: break
+              for r in data:
+                  repos.append({"language":r["language"] or "Other",
+                                "stars":   r["stargazers_count"]})
+              page += 1
+          pathlib.Path("assets/repos.json").write_text(json.dumps(repos,ensure_ascii=False))
+          PY
+
+      # ---------- README 生成 ----------
+      - name: Update README
+        run: python .github/scripts/update_readme.py
+
+      # ---------- Commit & Push ----------
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: 'chore: auto update profile'
+          branch: main
+          commit_user_name: github-actions[bot]
+          commit_user_email: 41898282+github-actions[bot]@users.noreply.github.com

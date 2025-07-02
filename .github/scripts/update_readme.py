@@ -1,26 +1,29 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-README 自動生成
-  • Hero  : links は $PROFILE_LINKS (JSON)
-  • Stack : 公開＋プライベート Repo でスコア計算
-  • Stats/Contributions/Trophy : 埋め込み
+README 自動生成 – JSON(assets/info.json・repos.json)＋キャッシュ SVG を利用
+  • Badges       : Views  +  Wakatime (任意)
+  • Hero         : 中央寄せタイトル / ハンドル，リンク行，自己紹介(bio)，所在地
+  • Stack        : 全リポジトリ言語をレベル分類バッジ
+  • Stats Row    : stats.svg + streak-stats.svg を横並び
+  • Contributions: activity-graph.svg
+  • Trophy       : GitHub Profile Trophy (外部呼び出し)
+  • Footer       : JST 時刻をマーカー置換
 """
-from __future__ import annotations
-import json, os, re, urllib.request, collections
-from pathlib import Path
-from urllib.parse import quote_plus
-from datetime import datetime, timezone, timedelta
 
+from __future__ import annotations
+import json, os, re, collections
+from pathlib import Path
+from datetime import datetime, timezone, timedelta
+from urllib.parse import quote_plus
 
 # ---------- 基本 ----------
-OWNER = os.getenv("OWNER", "")
 ROOT = Path(__file__).resolve().parents[2]
 README = ROOT / "README.md"
+OWNER = os.getenv("OWNER") or Path.cwd().parts[-1]
 
-
-# ---------- レベル ----------
-SKILL_LEVELS = [(20, "Expert"), (10, "Advanced"), (5, "Intermediate"), (1, "Beginner")]
+# ---------- レベル & カラー ----------
+LEVELS = [(20, "Expert"), (10, "Advanced"), (5, "Intermediate"), (1, "Beginner")]
 LEVEL_COLOR = {
     "Expert": "7E3AF2",
     "Advanced": "10B981",
@@ -29,8 +32,7 @@ LEVEL_COLOR = {
     "Newbie": "9CA3AF",
 }
 
-
-# ---------- ロゴ色 ----------
+# ---------- 言語ロゴ色（省略せずに保持） ----------
 LOGO_COLOR = {
     "Dart": "0175C2",
     "Flutter": "02569B",
@@ -107,147 +109,117 @@ LOGO_COLOR = {
 }
 
 
-# ---------- GitHub GraphQL ----------
-API = "https://api.github.com/graphql"
-HEAD = {"Authorization": f"bearer {os.getenv('GH_TOKEN_PRIVATE','')}"}
-
-INFO_Q = """
-query($login:String!){ user(login:$login){
-  name bio location
-}}"""
-REPO_Q = """
-query($after:String){
-  viewer{ repositories(first:100, after:$after, ownerAffiliations:OWNER, isFork:false){
-    nodes{
-      stargazerCount
-      primaryLanguage{ name }
-    }
-    pageInfo{ hasNextPage endCursor }
-  }}
-}"""
-
-
-def gql(q: str, v: dict) -> dict:
-    data = json.dumps({"query": q, "variables": v}).encode()
-    req = urllib.request.Request(API, data, HEAD)
-    with urllib.request.urlopen(req) as r:
-        return json.load(r)
-
-
-def user_info():
-    return gql(INFO_Q, {"login": OWNER})["data"]["user"]
-
-
-def repos_all():
-    out, cur = [], None
-    while True:
-        r = gql(REPO_Q, {"after": cur})["data"]["viewer"]["repositories"]
-        out += r["nodes"]
-        if not r["pageInfo"]["hasNextPage"]:
-            break
-        cur = r["pageInfo"]["endCursor"]
-    return out
-
-
-# ---------- Helper ----------
-def classify(score):
-    for th, lvl in SKILL_LEVELS:
-        if score >= th:
-            return lvl
-    return "Newbie"
-
-
-def badge(lang, label):
-    base = LOGO_COLOR.get(lang, "888888")
-    level = LEVEL_COLOR.get(label, "9CA3AF")
-    return (
-        f"https://img.shields.io/badge/{quote_plus(lang)}-{quote_plus(label)}-{base}"
-        f"?logo={lang.lower().replace(' ','')}&logoColor=white&labelColor={level}"
-    )
-
-
-def repl(tag, new, text):
-    p = rf"<!--START_SECTION:{tag}-->(.*?)<!--END_SECTION:{tag}-->"
+# ---------- 共通置換関数 ----------
+def repl(tag: str, new: str, text: str) -> str:
+    pattern = rf"<!--START_SECTION:{tag}-->(.*?)<!--END_SECTION:{tag}-->"
     return re.sub(
-        p,
+        pattern,
         f"<!--START_SECTION:{tag}-->\n{new}\n<!--END_SECTION:{tag}-->",
         text,
         flags=re.S,
     )
 
 
-# ---------- Markdown builders ----------
-def hero_md(info):
-    name = f'<h1 align="center">👋 {info["name"]}</h1>'
-    user = f'<p align="center"><strong>@{OWNER}</strong></p>'
-
-    # links
-    link_data = json.loads(os.getenv("PROFILE_LINKS", "[]"))
-    links = " ・ ".join(f'<a href="{d["url"]}">{d["title"]}</a>' for d in link_data)
-    links_md = f'<p align="center">{links}</p>' if links else ""
-
-    # intro
-    intro = (info.get("bio") or "").strip()
-    intro_md = f"<p>{intro}</p>" if intro else ""
-
-    loc = info.get("location") or ""
-    loc_md = f'<p align="center">📍 {loc}</p>' if loc else ""
-
-    return "\n".join([name, user, links_md, intro_md, loc_md])
+# ---------- ビュー & Wakatime バッジ ----------
+def small_badges() -> str:
+    views = f"![Views](https://komarev.com/ghpvc/?username={OWNER}&style=flat)"
+    waka_badge = ""
+    wak_user = os.getenv("WAKATIME_USER")
+    if wak_user:
+        waka_badge = (
+            f"[![wakatime](https://wakatime.com/badge/user/{wak_user}.svg)]"
+            f"(https://wakatime.com/@{wak_user})"
+        )
+    return " ".join(filter(None, [views, waka_badge]))
 
 
-def stack_md(repos):
+# ---------- Hero ----------
+def hero(info: dict) -> str:
+    name_html = f'<h1 align="center">👋 {info["name"]}</h1>'
+    user_html = f'<p align="center"><strong>@{OWNER}</strong></p>'
+    # 外部リンク
+    links_html = ""
+    links = json.loads(os.getenv("PROFILE_LINKS", "[]"))
+    if links:
+        row = " ・ ".join(f'<a href="{l["url"]}">{l["title"]}</a>' for l in links)
+        links_html = f'<p align="center">{row}</p>'
+    # Bio / Location
+    bio_html = f'<p>{info["bio"].strip()}</p>' if info.get("bio") else ""
+    loc_html = (
+        f'<p align="center">📍 {info["location"]}</p>' if info.get("location") else ""
+    )
+    return "\n".join(
+        filter(None, [name_html, user_html, links_html, bio_html, loc_html])
+    )
+
+
+# ---------- Stack ----------
+def classify(v: float) -> str:
+    for th, lvl in LEVELS:
+        if v >= th:
+            return lvl
+    return "Newbie"
+
+
+def badge(lang: str, lvl: str) -> str:
+    base = LOGO_COLOR.get(lang, "888888")
+    lbl = LEVEL_COLOR[lvl]
+    return (
+        f"https://img.shields.io/badge/{quote_plus(lang)}-{quote_plus(lvl)}-{base}"
+        f"?logo={lang.lower()}&logoColor=white&labelColor={lbl}"
+    )
+
+
+def stack(repos: list[dict]) -> str:
     cnt, star = collections.Counter(), collections.Counter()
     for r in repos:
-        lang = r["primaryLanguage"]["name"] if r["primaryLanguage"] else None
-        if not lang:
-            continue
-        cnt[lang] += 1
-        star[lang] += r["stargazerCount"]
+        cnt[r["language"]] += 1
+        star[r["language"]] += r["stars"]
     score = {l: cnt[l] + star[l] / 10 for l in cnt}
 
     grouped = collections.defaultdict(list)
     for lang, val in score.items():
         grouped[classify(val)].append((lang, val))
 
-    order = ["Expert", "Advanced", "Intermediate", "Beginner", "Newbie"]
-
     out = []
-    for lvl in order:
+    for lvl in ["Expert", "Advanced", "Intermediate", "Beginner", "Newbie"]:
         if lvl not in grouped:
             continue
         out.append(f"### {lvl}")
-        badges = " ".join(
-            badge(lang, lvl)
-            for lang, _ in sorted(grouped[lvl], key=lambda t: t[1], reverse=True)
+        out.append(
+            " ".join(
+                badge(l, lvl)
+                for l, _ in sorted(grouped[lvl], key=lambda t: t[1], reverse=True)
+            )
         )
-        out.append(badges)
     return "\n\n".join(out)
 
 
-def stats_md():
-    return "\n\n".join(
-        [
-            f"![GitHub Stats Card](https://github-readme-stats.vercel.app/api?username={OWNER}&show_icons=true&count_private=true)",
-            f"![Top Languages Card](https://github-readme-stats.vercel.app/api/top-langs/?username={OWNER}&layout=compact&hide=jupyter%20notebook)",
-        ]
-    )
+# ---------- Stats Row ----------
+def stats_row() -> str:
+    stats = '<img src="assets/stats.svg" width="49.3%" align="left"/>'
+    streak = '<img src="assets/streak-stats.svg" width="49.3%"/>'
+    return f"<div>{stats}{streak}</div>\n<br/>"
 
 
-def contrib_md():
-    return f"![Contribution Graph](https://github-readme-activity-graph.cyclic.app/graph?username={OWNER}&theme=github)"
+# ---------- Contributions ----------
+def contrib() -> str:
+    return '<img src="assets/activity-graph.svg" width="100%"/>'
 
 
-# ---------- main ----------
+# ---------- メイン処理 ----------
 def main():
-    info = user_info()
-    repos = repos_all()
-    md = README.read_text(encoding="utf-8")
+    # 事前にワークフローで生成済み JSON を読む
+    info = json.loads(Path("assets/info.json").read_text())
+    repos = json.loads(Path("assets/repos.json").read_text())
 
-    md = repl("hero", hero_md(info), md)
-    md = repl("stack", stack_md(repos), md)
-    md = repl("stats", stats_md(), md)
-    md = repl("contrib", contrib_md(), md)
+    md = README.read_text()
+
+    md = repl("badges", small_badges(), md)
+    md = repl("hero", hero(info), md)
+    md = repl("stack", stack(repos), md)
+    md = repl("stats", stats_row(), md)
+    md = repl("contrib", contrib(), md)
     md = repl(
         "trophy",
         f"[![trophy](https://github-profile-trophy.vercel.app/?username={OWNER})]"
@@ -255,10 +227,10 @@ def main():
         md,
     )
 
-    jst = datetime.now(timezone.utc) + timedelta(hours=9)
-    stamp = jst.strftime("%Y-%m-%d %H:%M JST")
-    footer = f'<p align="right"><sup>⏰ Updated {stamp}</sup></p>'
-    md = repl("footer", footer, md)
+    ts = (datetime.now(timezone.utc) + timedelta(hours=9)).strftime(
+        "%Y-%m-%d %H:%M JST"
+    )
+    md = repl("footer", f'<p align="right"><sup>⏰ Updated {ts}</sup></p>', md)
 
     README.write_text(md, encoding="utf-8")
 

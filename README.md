@@ -1,38 +1,34 @@
+<!--START_SECTION:badges-->
+<!--END_SECTION:badges-->
+
 <!--START_SECTION:hero-->
-<h1 align="center">👋 Daichi Okumura</h1>
-<p align="center"><strong>@dahutos2</strong></p>
-<p align="center"><a href="https://x.com/dahutos1">X / Twitter</a></p>
-<p>Full-stack developer / Flutter etc…</p>
-<p align="center">📍 Osaka</p>
 <!--END_SECTION:hero-->
+
+---
 
 ## 🛠 Tech Stack
 <!--START_SECTION:stack-->
-### Advanced
-
-https://img.shields.io/badge/Python-Advanced-3776AB?logo=python&logoColor=white&labelColor=10B981 https://img.shields.io/badge/Dart-Advanced-0175C2?logo=dart&logoColor=white&labelColor=10B981
-
-### Beginner
-
-https://img.shields.io/badge/Jupyter+Notebook-Beginner-DA5B0B?logo=jupyternotebook&logoColor=white&labelColor=EF4444 https://img.shields.io/badge/PHP-Beginner-777BB4?logo=php&logoColor=white&labelColor=EF4444 https://img.shields.io/badge/Java-Beginner-B07219?logo=java&logoColor=white&labelColor=EF4444 https://img.shields.io/badge/JavaScript-Beginner-F7DF1E?logo=javascript&logoColor=white&labelColor=EF4444 https://img.shields.io/badge/HTML-Beginner-E34C26?logo=html&logoColor=white&labelColor=EF4444 https://img.shields.io/badge/TypeScript-Beginner-3178C6?logo=typescript&logoColor=white&labelColor=EF4444 https://img.shields.io/badge/CSS-Beginner-1572B6?logo=css&logoColor=white&labelColor=EF4444 https://img.shields.io/badge/Vue-Beginner-41B883?logo=vue&logoColor=white&labelColor=EF4444 https://img.shields.io/badge/Ruby-Beginner-CC342D?logo=ruby&logoColor=white&labelColor=EF4444 https://img.shields.io/badge/C%23-Beginner-178600?logo=c#&logoColor=white&labelColor=EF4444
 <!--END_SECTION:stack-->
 
-## 📈 GitHub Statistics
-<!--START_SECTION:stats-->
-![GitHub Stats Card](https://github-readme-stats.vercel.app/api?username=dahutos2&show_icons=true&count_private=true)
+---
 
-![Top Languages Card](https://github-readme-stats.vercel.app/api/top-langs/?username=dahutos2&layout=compact&hide=jupyter%20notebook)
+## 📊 Stats & Streak
+<!--START_SECTION:stats-->
 <!--END_SECTION:stats-->
+
+---
 
 ## ✒️ Contributions
 <!--START_SECTION:contrib-->
-![Contribution Graph](https://github-readme-activity-graph.cyclic.app/graph?username=dahutos2&theme=github)
 <!--END_SECTION:contrib-->
+
+---
 
 ## 🏆 Achievements
 <!--START_SECTION:trophy-->
-[![trophy](https://github-profile-trophy.vercel.app/?username=dahutos2)](https://github.com/ryo-ma/github-profile-trophy)
 <!--END_SECTION:trophy-->
+
+---
 
 ## ✨ LAPRAS Score
 <!--START_SECTION:lapras-card-->
