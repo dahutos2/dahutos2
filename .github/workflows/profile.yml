@@ -15,7 +15,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: write        # push 用
+      contents: write # push 用
+    environment: profile-links
     env:
       OWNER: ${{ github.repository_owner }} # ユーザー名
       GH_TOKEN_PRIVATE: ${{ secrets.PROFILE_TOKEN }} # GraphQL 用 PAT
