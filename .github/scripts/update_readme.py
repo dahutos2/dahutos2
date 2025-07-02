@@ -144,46 +144,32 @@ def badges_row() -> str:
 # ────────────────────────── Hero（簡潔センタリング）
 def hero(info: dict) -> str:
     """
-    左カラム : 氏名タイトル + Bio
-    右カラム : ハンドル名 / 外部リンク / ロケーション
-    各カラム幅は 50% 固定。テーブルなのでモバイルでも自然に縦積みされる。
+    1行目 : 見出し（絵文字＋氏名）
+    2行目 : ハンドル＋外部リンク（同一行）
+    3行目 : Bio（センターに 1行）
+    4行目 : ロケーション
     """
+    # ----- 1) タイトル
+    h1 = f'<h1 align="center">👋 {info["name"]}</h1>'
 
-    # ---------- データ取得 ----------
-    name = info["name"]
-    bio = (info.get("bio") or "").strip().replace("\n", " ")
-    location = info.get("location") or ""
-    links_cfg = json.loads(os.getenv("PROFILE_LINKS") or "[]")
+    # ----- 2) ハンドル＋リンク
+    #   @ユーザー ｜ <a>Link</a>
+    handle = f"@{OWNER}"
+    links = json.loads(os.getenv("PROFILE_LINKS") or "[]")
+    if links:
+        first = f'<a href="{links[0]["url"]}">{links[0]["title"]}</a>'
+        handle += f" ｜ {first}"
+    row2 = f'<p align="center">{handle}</p>'
 
-    # ---------- 左カラム ----------
-    left_parts = [f"<h1>👋 {name}</h1>"]
-    if bio:
-        left_parts.append(f"<p>{bio}</p>")
-    left_td = "<br/>\n".join(left_parts)
+    # ----- 3) Bio
+    bio_txt = info.get("bio", "").strip().replace("\n", " ")
+    row3 = f'<p align="center">{bio_txt}</p>' if bio_txt else ""
 
-    # ---------- 右カラム ----------
-    right_lines = [f"<strong>@{OWNER}</strong>"]
+    # ----- 4) Location
+    loc = info.get("location", "")
+    row4 = f'<p align="center">📍 {loc}</p>' if loc else ""
 
-    # 外部リンク（1 行ずつ）
-    for l in links_cfg:
-        right_lines.append(f'<a href="{l["url"]}">{l["title"]}</a>')
-
-    if location:
-        right_lines.append(f"📍 {location}")
-
-    right_td = "<br/>\n".join(right_lines)
-
-    # ---------- テーブル結合 ----------
-    hero_html = f"""
-<table width="100%">
-  <tr>
-    <td width="50%" valign="top">{left_td}</td>
-    <td width="50%" valign="top" align="right">{right_td}</td>
-  </tr>
-</table>
-""".strip()
-
-    return hero_html
+    return "\n".join(filter(None, [h1, row2, row3, row4]))
 
 
 # ────────────────────────── Stack
