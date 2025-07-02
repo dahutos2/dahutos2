@@ -9,7 +9,7 @@ on:
         - '.github/workflows/**'
         - '.github/scripts/**'
   schedule:
-    - cron: '0 18 * * 0' # UTC 日曜18時＝JST 月曜03時
+    - cron: "0 0 * * *" # 毎日午前0時（UTC）に実行
 
 # 同時に 1 ジョブだけ許可
 concurrency:
@@ -25,7 +25,7 @@ jobs:
       GH_TOKEN_PRIVATE: ${{ secrets.PROFILE_TOKEN }} # GraphQL 用 PAT
       LAPRAS_ID: ${{ secrets.LAPRAS_ID }} # Secret
       PROFILE_LINKS: ${{ vars.PROFILE_LINKS }} # プロフィールリンク
-      WAKATIME_USER: ${{ vars.WAKATIME_USER }} # WakaTimeユーザー名
+      WAKA_TIME_SVG_ID: ${{ secrets.WAKA_TIME_SVG_ID }} # WakaTimeSvg
     steps:
       # リポジトリチェックアウト
       - uses: actions/checkout@v4
@@ -56,7 +56,7 @@ jobs:
         run: curl "https://fabianocouto-readme-stats.vercel.app/api/wakatime?username=${OWNER}&range=all_time&theme=github_dark_dimmed&layout=compact" -o assets/wakatime.svg
 
       - name: Download top languages
-        run: curl "https://fabianocouto-readme-stats.vercel.app/api/top-langs/?username=${OWNER}&layout=compact&langs_count=10&theme=github_dark_dimmed" -o assets/top-langs.svg      
+        run: curl "https://fabianocouto-readme-stats.vercel.app/api/top-langs/?username=${OWNER}&layout=compact&langs_count=10&theme=github_dark_dimmed&hide=jupyter%20notebook" -o assets/top-langs.svg      
 
       # ---------- 軽量 JSON を生成 (ユーザ/Bio/Repo 言語+スター) ----------
       - name: Generate info.json & repos.json

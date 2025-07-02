@@ -16,8 +16,8 @@ README 自動生成スクリプト
   2) キャッシュ済み SVG を配置
   3) SECTION コメントで README を置換
   4) 更新日時をフッタに書き込む
-Environment      : OWNER / PROFILE_LINKS / WAKATIME_USER
-Secrets (workflow): PROFILE_TOKEN （GraphQL 用 PAT）等
+Environment      : OWNER / PROFILE_LINKS
+Secrets (workflow): PROFILE_TOKEN （GraphQL 用 PAT）等 / WAKA_TIME_SVG_ID
 """
 
 from __future__ import annotations
@@ -134,28 +134,44 @@ def badges_row() -> str:
     views = f"![Views](https://komarev.com/ghpvc/?username={OWNER}&style=flat)"
     waka = ""
     if uid := os.getenv("WAKATIME_USER"):
-        waka = f"[![wakatime](https://wakatime.com/badge/user/{uid}.svg)](https://wakatime.com/@{uid})"
+        waka = (
+            f"[![wakatime](https://wakatime.com/badge/user/{uid}.svg)]"
+            f"(https://wakatime.com/@{uid})"
+        )
     return " ".join(filter(None, [views, waka]))
 
 
 # ────────────────────────── Hero
 def hero(info: dict) -> str:
-    parts = [
-        f'<h1 align="center">👋 {info["name"]}</h1>',
-        f'<p align="center"><strong>@{OWNER}</strong></p>',
+    """
+    • タイトル / ハンドル / 外部リンク … 中央寄せ
+    • Bio                                   … 左寄せ
+    • Location                              … 中央寄せ
+    ────────────────────────────────────────
+    GitHub の README は <div align="center"> でまとめると
+    子要素が中央寄せされるため、Bio は div 外に配置。
+    """
+    # ---------- Center block ----------
+    center_lines: list[str] = [
+        f'<h1>👋 {info["name"]}</h1>',
+        f"<strong>@{OWNER}</strong>",
     ]
+
     # 外部リンク
     links = json.loads(os.getenv("PROFILE_LINKS") or "[]")
     if links:
-        row = " ・ ".join(f'<a href="{l["url"]}">{l["title"]}</a>' for l in links)
-        parts.append(f'<p align="center">{row}</p>')
-    # Bio
-    if info.get("bio"):
-        parts.append(f'<p>{info["bio"].strip()}</p>')
-    # Location
-    if info.get("location"):
-        parts.append(f'<p align="center">📍 {info["location"]}</p>')
-    return "\n".join(parts)
+        row = " · ".join(f'<a href="{l["url"]}">{l["title"]}</a>' for l in links)
+        center_lines.append(row)
+
+    center_block = '<div align="center">\n' + "<br/>\n".join(center_lines) + "\n</div>"
+
+    # ---------- Bio (left) ----------
+    bio = f'<p>{info["bio"].strip()}</p>' if info.get("bio") else ""
+
+    # ---------- Location ----------
+    loc = f'<p align="center">📍 {info["location"]}</p>' if info.get("location") else ""
+
+    return "\n\n".join(filter(None, [center_block, bio, loc]))
 
 
 # ────────────────────────── Stack
@@ -203,15 +219,21 @@ def build_stack(repos: list[dict]) -> str:
 
 # ────────────────────────── Stats & Streak + Wakatime & Top-Langs (2 行)
 def stats_block() -> str:
-    row1 = (
-        '<img src="assets/stats.svg" width="49.3%" align="left"/>'
-        '<img src="assets/streak-stats.svg" width="49.3%"/>'
+    stats = (
+        f'<img src="assets/stats.svg" alt="{OWNER} stats"  width="48.7%" align="left"/>'
     )
-    row2 = (
-        '<img src="assets/wakatime.svg" width="49.3%" align="left"/>'
-        '<img src="assets/top-langs.svg" width="49.3%"/>'
+    streak = f'<img src="assets/streak-stats.svg"  alt="{OWNER} streak" width="48.7%"/>'
+    graph = f'<img src="assets/activity-graph.svg" alt="{OWNER} graph" width="99.8%"/>'
+    waka = '<img src="assets/wakatime.svg" alt="wakatime" width="49.5%" align="left"/>'
+    langs = '<img src="assets/top-langs.svg alt="top langs" width="48%"/>'
+
+    return (
+        '<div class="d-block">\n'
+        f"  {stats}\n  {streak}\n</div>\n<br/>\n"
+        f"{graph}\n\n---\n"
+        '<div class="d-block">\n'
+        f"  {waka}\n  {langs}\n</div>"
     )
-    return f"<div>{row1}</div>\n<br/>\n<div>{row2}</div>\n<br/>"
 
 
 # ────────────────────────── Contribution Graph
