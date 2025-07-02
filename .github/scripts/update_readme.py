@@ -151,17 +151,18 @@ def repos_all():
 
 # ---------- Helper ----------
 def classify(score):
-    for th, l, c in SKILL_LEVELS:
+    for th, lvl in SKILL_LEVELS:
         if score >= th:
-            return l, c
-    return "Newbie", "9CA3AF"
+            return lvl
+    return "Newbie"
 
 
 def badge(lang, label):
     base = LOGO_COLOR.get(lang, "888888")
+    level = LEVEL_COLOR.get(label, "9CA3AF")
     return (
         f"https://img.shields.io/badge/{quote_plus(lang)}-{quote_plus(label)}-{base}"
-        f"?logo={lang.lower().replace(' ','')}&logoColor=white&labelColor={LEVEL_COLOR[label]}"
+        f"?logo={lang.lower().replace(' ','')}&logoColor=white&labelColor={level}"
     )
 
 
@@ -186,7 +187,7 @@ def hero_md(info):
     links_md = f'<p align="center">{links}</p>' if links else ""
 
     # intro
-    intro = os.getenv("PROFILE_INTRO", "").strip()
+    intro = (info.get("bio") or "").strip()
     intro_md = f"<p>{intro}</p>" if intro else ""
 
     loc = info.get("location") or ""
