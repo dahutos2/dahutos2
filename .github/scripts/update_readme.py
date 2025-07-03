@@ -149,10 +149,10 @@ def hero(info: dict) -> str:
     3行目 : Bio（センターに 1行）
     4行目 : ロケーション
     """
-    # ----- 1) タイトル
-    h1 = f'<h1 align="center">👋 {info["name"]}</h1>'
+    # ----- タイトル
+    h1 = f'<h1 align="center">{info["name"]}</h1>'
 
-    # ----- 2) ハンドル＋リンク
+    # ----- ハンドル＋リンク
     #   @ユーザー ｜ <a>Link</a>
     handle = f"@{OWNER}"
     links = json.loads(os.getenv("PROFILE_LINKS") or "[]")
@@ -161,26 +161,18 @@ def hero(info: dict) -> str:
         handle += f" ｜ {first}"
     row2 = f'<p align="center">{handle}</p>'
 
-    # ----- 3) Bio
+    # ----- Bio
     bio_txt = info.get("bio", "").strip().replace("\n", " ")
     row3 = f'<p align="center">{bio_txt}</p>' if bio_txt else ""
 
-    # ----- 4) Location
+    # ----- Location
     loc = info.get("location", "")
     row4 = f'<p align="center">📍 {loc}</p>' if loc else ""
 
     return "\n".join(filter(None, [h1, row2, row3, row4]))
 
 
-# ────────────────────────── Stack
-def classify(v: float) -> str:
-    for th, lvl in LEVELS:
-        if v >= th:
-            return lvl
-    return "Newbie"
-
-
-def badge(lang: str, lvl: str) -> str:
+def lang_badge(lang: str, lvl: str) -> str:
     lang_col = LOGO_COLOR.get(lang, "888888")
     lvl_col = LEVEL_COLOR[lvl]
     return (
@@ -189,30 +181,37 @@ def badge(lang: str, lvl: str) -> str:
     )
 
 
-def build_stack(repos: list[dict]) -> str:
-    cnt, star = collections.Counter(), collections.Counter()
-    for r in repos:
-        cnt[r["language"]] += 1
-        star[r["language"]] += r["stars"]
-    score = {l: cnt[l] + star[l] / 10 for l in cnt}
+def build_stack(langs: list[dict]) -> str:
+    size_kb = {d["language"]: d["bytes"] / 1024 for d in langs}
 
-    grouped = collections.defaultdict(list)
-    for lang, val in score.items():
-        grouped[classify(val)].append((lang, val))
+    # レベル分類（KB で判断）
+    def classify(kb: float) -> str:
+        if kb >= 5000:
+            return "Expert"
+        if kb >= 2000:
+            return "Advanced"
+        if kb >= 800:
+            return "Intermediate"
+        if kb >= 100:
+            return "Beginner"
+        return "Newbie"
 
-    out: list[str] = []
+    buckets = collections.defaultdict(list)
+    for lang, kb in size_kb.items():
+        buckets[classify(kb)].append((lang, kb))
+
+    rows = []
     for lvl in ["Expert", "Advanced", "Intermediate", "Beginner", "Newbie"]:
-        langs = grouped.get(lvl)
-        if not langs:
+        if lvl not in buckets:
             continue
-        out.append(f"### {lvl}")
-        out.append(
+        rows.append(f"### {lvl}")
+        rows.append(
             " ".join(
-                f"![{lang}]({badge(lang, lvl)})"
-                for lang, _ in sorted(langs, key=lambda t: t[1], reverse=True)
+                f"![{lang}]({lang_badge(lang, lvl)})"
+                for lang, _ in sorted(buckets[lvl], key=lambda t: t[1], reverse=True)
             )
         )
-    return "\n\n".join(out)
+    return "\n\n".join(rows)
 
 
 # ────────────────────────── Stats & Streak + Wakatime & Top-Langs (2 行)
@@ -234,11 +233,6 @@ def stats_block() -> str:
     )
 
 
-# ────────────────────────── Contribution Graph
-def contrib_graph() -> str:
-    return '<img src="assets/activity-graph.svg" width="100%"/>'
-
-
 # ────────────────────────── メイン処理
 def main() -> None:
     info = json.loads(Path("assets/info.json").read_text())
@@ -249,9 +243,8 @@ def main() -> None:
     md = repl("hero", hero(info), md)
     md = repl("stack", build_stack(repos), md)
     md = repl("stats", stats_block(), md)
-    md = repl("contrib", contrib_graph(), md)
 
-    # Trophy (外部呼び出し)
+    # Trophy
     trophy_tag = (
         "[![trophy](https://github-profile-trophy.vercel.app/?username="
         f"{OWNER})](https://github.com/ryo-ma/github-profile-trophy)"
