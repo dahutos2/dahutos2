@@ -26,7 +26,7 @@ import json, os, re, collections
 from pathlib import Path
 from datetime import datetime, timezone, timedelta
 from typing import Dict, List, Tuple
-from urllib.parse import quote
+from urllib.parse import quote, quote_plus
 
 # ────────────────────────── 基本設定
 ROOT = Path(__file__).resolve().parents[2]
@@ -168,27 +168,32 @@ def hero(info: dict) -> str:
 
     # ----- Location
     loc = info.get("location", "")
-    row4 = f'<p align="left">📍 {loc}</p>' if loc else ""
+    row4 = f'<p align="right">📍 {loc}</p>' if loc else ""
 
     return "\n".join(filter(None, [h1, row2, row3, row4]))
 
 
-def _escape_shields(text: str) -> str:
+def escape_shields(text: str) -> str:
     text = text.replace("_", "__").replace("-", "--")
     return quote(text, safe="-_")
 
 
+def simple_icons_slug(lang: str) -> str:
+    return quote_plus(lang.lower())
+
+
 def lang_badge(lang: str, lvl: str) -> str:
-    label = _escape_shields(lang)
+    label = escape_shields(lang)
+    logo = simple_icons_slug(lang)
     color = LEVEL_COLOR[lvl]
-    logo = lang.lower().replace(" ", "%20")  # simple-icons slug
+    lbl = LOGO_COLOR.get(lang, "888888")
     return (
         f"https://img.shields.io/badge/{label}-{lvl}-{color}"
-        f"?logo={logo}&logoColor=white&labelColor=438EFF"
+        f"?logo={logo}&logoColor=white&labelColor={lbl}"
     )
 
 
-def build_stack(langs):
+def build_stack(langs: List[Dict[str, int]]) -> str:
     size_kb = {d["language"]: d["bytes"] / 1024 for d in langs}
     repo_cnt = {d["language"]: d["repos"] for d in langs}
 
