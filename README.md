@@ -3,7 +3,7 @@
 <!--END_SECTION:badges-->
 
 <!--START_SECTION:hero-->
-<h1 align="center">👋 Daichi Okumura</h1>
+<h1 align="center">Daichi Okumura</h1>
 <p align="center">@dahutos2 ｜ <a href="https://x.com/dahutos1">X / Twitter</a></p>
 <p align="center">Full-stack developer / Flutter etc…</p>
 <p align="center">📍 Osaka, Japan</p>
@@ -13,11 +13,15 @@
 <!--START_SECTION:stack-->
 ### Advanced
 
-![Python](https://img.shields.io/badge/Python-Advanced-10B981?logo=python&logoColor=white&labelColor=3776AB) ![Dart](https://img.shields.io/badge/Dart-Advanced-10B981?logo=dart&logoColor=white&labelColor=0175C2)
+![Jupyter Notebook](https://img.shields.io/badge/Jupyter+Notebook-Advanced-10B981?logo=jupyternotebook&logoColor=white&labelColor=DA5B0B)
 
 ### Beginner
 
-![Jupyter Notebook](https://img.shields.io/badge/Jupyter+Notebook-Beginner-EF4444?logo=jupyternotebook&logoColor=white&labelColor=DA5B0B) ![Java](https://img.shields.io/badge/Java-Beginner-EF4444?logo=java&logoColor=white&labelColor=B07219) ![TypeScript](https://img.shields.io/badge/TypeScript-Beginner-EF4444?logo=typescript&logoColor=white&labelColor=3178C6) ![HTML](https://img.shields.io/badge/HTML-Beginner-EF4444?logo=html&logoColor=white&labelColor=E34C26) ![Other](https://img.shields.io/badge/Other-Beginner-EF4444?logo=other&logoColor=white&labelColor=888888) ![C#](https://img.shields.io/badge/C%23-Beginner-EF4444?logo=c#&logoColor=white&labelColor=178600) ![JavaScript](https://img.shields.io/badge/JavaScript-Beginner-EF4444?logo=javascript&logoColor=white&labelColor=F7DF1E)
+![Dart](https://img.shields.io/badge/Dart-Beginner-EF4444?logo=dart&logoColor=white&labelColor=0175C2) ![Java](https://img.shields.io/badge/Java-Beginner-EF4444?logo=java&logoColor=white&labelColor=B07219) ![Python](https://img.shields.io/badge/Python-Beginner-EF4444?logo=python&logoColor=white&labelColor=3776AB) ![JavaScript](https://img.shields.io/badge/JavaScript-Beginner-EF4444?logo=javascript&logoColor=white&labelColor=F7DF1E) ![CSS](https://img.shields.io/badge/CSS-Beginner-EF4444?logo=css&logoColor=white&labelColor=1572B6) ![HTML](https://img.shields.io/badge/HTML-Beginner-EF4444?logo=html&logoColor=white&labelColor=E34C26)
+
+### Newbie
+
+![TypeScript](https://img.shields.io/badge/TypeScript-Newbie-9CA3AF?logo=typescript&logoColor=white&labelColor=3178C6) ![C#](https://img.shields.io/badge/C%23-Newbie-9CA3AF?logo=c#&logoColor=white&labelColor=178600) ![C++](https://img.shields.io/badge/C%2B%2B-Newbie-9CA3AF?logo=c++&logoColor=white&labelColor=f34b7d) ![Shell](https://img.shields.io/badge/Shell-Newbie-9CA3AF?logo=shell&logoColor=white&labelColor=89e051) ![CMake](https://img.shields.io/badge/CMake-Newbie-9CA3AF?logo=cmake&logoColor=white&labelColor=888888) ![Ruby](https://img.shields.io/badge/Ruby-Newbie-9CA3AF?logo=ruby&logoColor=white&labelColor=CC342D) ![Swift](https://img.shields.io/badge/Swift-Newbie-9CA3AF?logo=swift&logoColor=white&labelColor=FA7343) ![Less](https://img.shields.io/badge/Less-Newbie-9CA3AF?logo=less&logoColor=white&labelColor=1D365D) ![SCSS](https://img.shields.io/badge/SCSS-Newbie-9CA3AF?logo=scss&logoColor=white&labelColor=CD6799) ![Makefile](https://img.shields.io/badge/Makefile-Newbie-9CA3AF?logo=makefile&logoColor=white&labelColor=427819) ![kvlang](https://img.shields.io/badge/kvlang-Newbie-9CA3AF?logo=kvlang&logoColor=white&labelColor=888888) ![Kotlin](https://img.shields.io/badge/Kotlin-Newbie-9CA3AF?logo=kotlin&logoColor=white&labelColor=A97BFF) ![Batchfile](https://img.shields.io/badge/Batchfile-Newbie-9CA3AF?logo=batchfile&logoColor=white&labelColor=888888) ![PowerShell](https://img.shields.io/badge/PowerShell-Newbie-9CA3AF?logo=powershell&logoColor=white&labelColor=012456) ![C](https://img.shields.io/badge/C-Newbie-9CA3AF?logo=c&logoColor=white&labelColor=555555) ![Objective-C](https://img.shields.io/badge/Objective-C-Newbie-9CA3AF?logo=objective-c&logoColor=white&labelColor=438EFF) ![Procfile](https://img.shields.io/badge/Procfile-Newbie-9CA3AF?logo=procfile&logoColor=white&labelColor=888888) ![PHP](https://img.shields.io/badge/PHP-Newbie-9CA3AF?logo=php&logoColor=white&labelColor=777BB4)
 <!--END_SECTION:stack-->
 
 ## Stats & Streak
@@ -47,5 +51,5 @@
 <!--END_SECTION:trophy-->
 
 <!--START_SECTION:footer-->
-<p align="right"><sup>⏰ Updated 2025-07-03 09:29 JST</sup></p>
+<p align="right"><sup>⏰ Updated 2025-07-03 20:45 JST</sup></p>
 <!--END_SECTION:footer-->
