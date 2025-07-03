@@ -3,25 +3,29 @@
 <!--END_SECTION:badges-->
 
 <!--START_SECTION:hero-->
-<h1 align="center">Daichi Okumura</h1>
-<p align="center">@dahutos2 ｜ <a href="https://x.com/dahutos1">X / Twitter</a></p>
-<p align="center">Full-stack developer / Flutter etc…</p>
-<p align="center">📍 Osaka, Japan</p>
+<h1 align="left">Daichi Okumura</h1>
+<p align="left">@dahutos2 ｜ <a href="https://x.com/dahutos1">X / Twitter</a></p>
+<p align="left">Full-stack developer / Flutter etc…</p>
+<p align="left">📍 Osaka, Japan</p>
 <!--END_SECTION:hero-->
 
 ## 🛠 Tech Stack
 <!--START_SECTION:stack-->
+### Expert
+
+![Jupyter Notebook](https://img.shields.io/badge/Jupyter%20Notebook-Expert-CA9B04?logo=jupyter%20notebook&logoColor=white&labelColor=438EFF) ![Dart](https://img.shields.io/badge/Dart-Expert-CA9B04?logo=dart&logoColor=white&labelColor=438EFF) ![Python](https://img.shields.io/badge/Python-Expert-CA9B04?logo=python&logoColor=white&labelColor=438EFF) ![CSS](https://img.shields.io/badge/CSS-Expert-CA9B04?logo=css&logoColor=white&labelColor=438EFF) ![HTML](https://img.shields.io/badge/HTML-Expert-CA9B04?logo=html&logoColor=white&labelColor=438EFF) ![Shell](https://img.shields.io/badge/Shell-Expert-CA9B04?logo=shell&logoColor=white&labelColor=438EFF) ![Swift](https://img.shields.io/badge/Swift-Expert-CA9B04?logo=swift&logoColor=white&labelColor=438EFF) ![Makefile](https://img.shields.io/badge/Makefile-Expert-CA9B04?logo=makefile&logoColor=white&labelColor=438EFF) ![Kotlin](https://img.shields.io/badge/Kotlin-Expert-CA9B04?logo=kotlin&logoColor=white&labelColor=438EFF) ![Objective-C](https://img.shields.io/badge/Objective--C-Expert-CA9B04?logo=objective-c&logoColor=white&labelColor=438EFF) ![Procfile](https://img.shields.io/badge/Procfile-Expert-CA9B04?logo=procfile&logoColor=white&labelColor=438EFF)
+
 ### Advanced
 
-![Jupyter Notebook](https://img.shields.io/badge/Jupyter+Notebook-Advanced-10B981?logo=jupyternotebook&logoColor=white&labelColor=DA5B0B)
+![JavaScript](https://img.shields.io/badge/JavaScript-Advanced-57DD55?logo=javascript&logoColor=white&labelColor=438EFF) ![Ruby](https://img.shields.io/badge/Ruby-Advanced-57DD55?logo=ruby&logoColor=white&labelColor=438EFF)
+
+### Intermediate
+
+![Java](https://img.shields.io/badge/Java-Intermediate-4CA8FF?logo=java&logoColor=white&labelColor=438EFF) ![TypeScript](https://img.shields.io/badge/TypeScript-Intermediate-4CA8FF?logo=typescript&logoColor=white&labelColor=438EFF) ![C#](https://img.shields.io/badge/C%23-Intermediate-4CA8FF?logo=c#&logoColor=white&labelColor=438EFF) ![kvlang](https://img.shields.io/badge/kvlang-Intermediate-4CA8FF?logo=kvlang&logoColor=white&labelColor=438EFF)
 
 ### Beginner
 
-![Dart](https://img.shields.io/badge/Dart-Beginner-EF4444?logo=dart&logoColor=white&labelColor=0175C2) ![Java](https://img.shields.io/badge/Java-Beginner-EF4444?logo=java&logoColor=white&labelColor=B07219) ![Python](https://img.shields.io/badge/Python-Beginner-EF4444?logo=python&logoColor=white&labelColor=3776AB) ![JavaScript](https://img.shields.io/badge/JavaScript-Beginner-EF4444?logo=javascript&logoColor=white&labelColor=F7DF1E) ![CSS](https://img.shields.io/badge/CSS-Beginner-EF4444?logo=css&logoColor=white&labelColor=1572B6) ![HTML](https://img.shields.io/badge/HTML-Beginner-EF4444?logo=html&logoColor=white&labelColor=E34C26)
-
-### Newbie
-
-![TypeScript](https://img.shields.io/badge/TypeScript-Newbie-9CA3AF?logo=typescript&logoColor=white&labelColor=3178C6) ![C#](https://img.shields.io/badge/C%23-Newbie-9CA3AF?logo=c#&logoColor=white&labelColor=178600) ![C++](https://img.shields.io/badge/C%2B%2B-Newbie-9CA3AF?logo=c++&logoColor=white&labelColor=f34b7d) ![Shell](https://img.shields.io/badge/Shell-Newbie-9CA3AF?logo=shell&logoColor=white&labelColor=89e051) ![CMake](https://img.shields.io/badge/CMake-Newbie-9CA3AF?logo=cmake&logoColor=white&labelColor=888888) ![Ruby](https://img.shields.io/badge/Ruby-Newbie-9CA3AF?logo=ruby&logoColor=white&labelColor=CC342D) ![Swift](https://img.shields.io/badge/Swift-Newbie-9CA3AF?logo=swift&logoColor=white&labelColor=FA7343) ![Less](https://img.shields.io/badge/Less-Newbie-9CA3AF?logo=less&logoColor=white&labelColor=1D365D) ![SCSS](https://img.shields.io/badge/SCSS-Newbie-9CA3AF?logo=scss&logoColor=white&labelColor=CD6799) ![Makefile](https://img.shields.io/badge/Makefile-Newbie-9CA3AF?logo=makefile&logoColor=white&labelColor=427819) ![kvlang](https://img.shields.io/badge/kvlang-Newbie-9CA3AF?logo=kvlang&logoColor=white&labelColor=888888) ![Kotlin](https://img.shields.io/badge/Kotlin-Newbie-9CA3AF?logo=kotlin&logoColor=white&labelColor=A97BFF) ![Batchfile](https://img.shields.io/badge/Batchfile-Newbie-9CA3AF?logo=batchfile&logoColor=white&labelColor=888888) ![PowerShell](https://img.shields.io/badge/PowerShell-Newbie-9CA3AF?logo=powershell&logoColor=white&labelColor=012456) ![C](https://img.shields.io/badge/C-Newbie-9CA3AF?logo=c&logoColor=white&labelColor=555555) ![Objective-C](https://img.shields.io/badge/Objective-C-Newbie-9CA3AF?logo=objective-c&logoColor=white&labelColor=438EFF) ![Procfile](https://img.shields.io/badge/Procfile-Newbie-9CA3AF?logo=procfile&logoColor=white&labelColor=888888) ![PHP](https://img.shields.io/badge/PHP-Newbie-9CA3AF?logo=php&logoColor=white&labelColor=777BB4)
+![C++](https://img.shields.io/badge/C%2B%2B-Beginner-ADBAC7?logo=c++&logoColor=white&labelColor=438EFF) ![CMake](https://img.shields.io/badge/CMake-Beginner-ADBAC7?logo=cmake&logoColor=white&labelColor=438EFF) ![Less](https://img.shields.io/badge/Less-Beginner-ADBAC7?logo=less&logoColor=white&labelColor=438EFF) ![SCSS](https://img.shields.io/badge/SCSS-Beginner-ADBAC7?logo=scss&logoColor=white&labelColor=438EFF) ![Batchfile](https://img.shields.io/badge/Batchfile-Beginner-ADBAC7?logo=batchfile&logoColor=white&labelColor=438EFF) ![PowerShell](https://img.shields.io/badge/PowerShell-Beginner-ADBAC7?logo=powershell&logoColor=white&labelColor=438EFF) ![C](https://img.shields.io/badge/C-Beginner-ADBAC7?logo=c&logoColor=white&labelColor=438EFF) ![PHP](https://img.shields.io/badge/PHP-Beginner-ADBAC7?logo=php&logoColor=white&labelColor=438EFF)
 <!--END_SECTION:stack-->
 
 ## Stats & Streak
@@ -47,9 +51,9 @@
 
 ## Achievements
 <!--START_SECTION:trophy-->
-[![trophy](https://github-profile-trophy.vercel.app/?username=dahutos2)](https://github.com/ryo-ma/github-profile-trophy)
+<img src="assets/trophy.svg" alt="dahutos2 graph" width="99.8%"/>
 <!--END_SECTION:trophy-->
 
 <!--START_SECTION:footer-->
-<p align="right"><sup>⏰ Updated 2025-07-03 20:45 JST</sup></p>
+<p align="right"><sup>⏰ Updated 2025-07-03 21:10 JST</sup></p>
 <!--END_SECTION:footer-->
