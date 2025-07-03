@@ -9,7 +9,7 @@
 <p align="right">📍 Osaka, Japan</p>
 <!--END_SECTION:hero-->
 
-## 🛠 Tech Stack
+## Tech Stack
 <!--START_SECTION:stack-->
 ### Expert
 
