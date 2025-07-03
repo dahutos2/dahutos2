@@ -9,6 +9,7 @@ README 自動生成スクリプト
   • assets/wakatime.svg
   • assets/top-langs.svg
   • assets/activity-graph.svg
+  • assets/trophy.svg
   • assets/info.json           ← name / bio / location
   • assets/repos.json          ← [{language, stars}, …]
 を準備済みとし、本スクリプトは
@@ -24,21 +25,21 @@ from __future__ import annotations
 import json, os, re, collections
 from pathlib import Path
 from datetime import datetime, timezone, timedelta
-from urllib.parse import quote_plus
+from typing import Dict, List, Tuple
+from urllib.parse import quote
 
 # ────────────────────────── 基本設定
 ROOT = Path(__file__).resolve().parents[2]
 README = ROOT / "README.md"
 OWNER = os.getenv("OWNER") or Path.cwd().parts[-1]
 
-# ────────────────────────── スキルレベル & 色
-LEVELS = [(20, "Expert"), (10, "Advanced"), (5, "Intermediate"), (1, "Beginner")]
-LEVEL_COLOR = {  # レベル別ラベル色
-    "Expert": "7E3AF2",
-    "Advanced": "10B981",
-    "Intermediate": "F59E0B",
-    "Beginner": "EF4444",
-    "Newbie": "9CA3AF",
+# ────────────────────────── Shields.io 用の色マッピング
+LEVEL_COLOR = {
+    "Expert": "CA9B04",  # gold
+    "Advanced": "57DD55",  # green
+    "Intermediate": "4CA8FF",  # blue
+    "Beginner": "ADBAC7",  # gray-light
+    "Newbie": "9CA3AF",  # gray
 }
 
 # ────────────────────────── 言語→ロゴ色（全量保持）
@@ -150,7 +151,7 @@ def hero(info: dict) -> str:
     4行目 : ロケーション
     """
     # ----- タイトル
-    h1 = f'<h1 align="center">{info["name"]}</h1>'
+    h1 = f'<h1 align="left">{info["name"]}</h1>'
 
     # ----- ハンドル＋リンク
     #   @ユーザー ｜ <a>Link</a>
@@ -159,48 +160,60 @@ def hero(info: dict) -> str:
     if links:
         first = f'<a href="{links[0]["url"]}">{links[0]["title"]}</a>'
         handle += f" ｜ {first}"
-    row2 = f'<p align="center">{handle}</p>'
+    row2 = f'<p align="left">{handle}</p>'
 
     # ----- Bio
     bio_txt = info.get("bio", "").strip().replace("\n", " ")
-    row3 = f'<p align="center">{bio_txt}</p>' if bio_txt else ""
+    row3 = f'<p align="left">{bio_txt}</p>' if bio_txt else ""
 
     # ----- Location
     loc = info.get("location", "")
-    row4 = f'<p align="center">📍 {loc}</p>' if loc else ""
+    row4 = f'<p align="left">📍 {loc}</p>' if loc else ""
 
     return "\n".join(filter(None, [h1, row2, row3, row4]))
 
 
+def _escape_shields(text: str) -> str:
+    text = text.replace("_", "__").replace("-", "--")
+    return quote(text, safe="-_")
+
+
 def lang_badge(lang: str, lvl: str) -> str:
-    lang_col = LOGO_COLOR.get(lang, "888888")
-    lvl_col = LEVEL_COLOR[lvl]
+    label = _escape_shields(lang)
+    color = LEVEL_COLOR[lvl]
+    logo = lang.lower().replace(" ", "%20")  # simple-icons slug
     return (
-        f"https://img.shields.io/badge/{quote_plus(lang)}-{quote_plus(lvl)}-{lvl_col}"
-        f"?logo={lang.lower().replace(' ','')}&logoColor=white&labelColor={lang_col}"
+        f"https://img.shields.io/badge/{label}-{lvl}-{color}"
+        f"?logo={logo}&logoColor=white&labelColor=438EFF"
     )
 
 
-def build_stack(langs: list[dict]) -> str:
+def build_stack(langs):
     size_kb = {d["language"]: d["bytes"] / 1024 for d in langs}
+    repo_cnt = {d["language"]: d["repos"] for d in langs}
 
-    # レベル分類（KB で判断）
-    def classify(kb: float) -> str:
-        if kb >= 5000:
+    # ── 評価基準 ──
+    #   * Expert       : ≥ 2 MB  〃 またはリポ数 ≥ 8
+    #   * Advanced     : ≥ 0.8 MB 〃 またはリポ数 ≥ 4
+    #   * Intermediate : ≥ 0.2 MB 〃 またはリポ数 ≥ 2
+    #   * Beginner     : ≥ 0.05 MB 〃 またはリポ数 ≥ 1
+    def classify(kb: float, repos: int) -> str:
+        if kb >= 2000 or repos >= 8:
             return "Expert"
-        if kb >= 2000:
+        if kb >= 800 or repos >= 4:
             return "Advanced"
-        if kb >= 800:
+        if kb >= 200 or repos >= 2:
             return "Intermediate"
-        if kb >= 100:
+        if kb >= 50 or repos >= 1:
             return "Beginner"
         return "Newbie"
 
-    buckets = collections.defaultdict(list)
-    for lang, kb in size_kb.items():
-        buckets[classify(kb)].append((lang, kb))
+    buckets: Dict[str, List[Tuple[str, float, int]]] = collections.defaultdict(list)
+    for lang in size_kb:
+        lvl = classify(size_kb[lang], repo_cnt[lang])
+        buckets[lvl].append((lang, size_kb[lang], repo_cnt[lang]))
 
-    rows = []
+    rows: List[str] = []
     for lvl in ["Expert", "Advanced", "Intermediate", "Beginner", "Newbie"]:
         if lvl not in buckets:
             continue
@@ -208,7 +221,11 @@ def build_stack(langs: list[dict]) -> str:
         rows.append(
             " ".join(
                 f"![{lang}]({lang_badge(lang, lvl)})"
-                for lang, _ in sorted(buckets[lvl], key=lambda t: t[1], reverse=True)
+                for lang, _, _ in sorted(
+                    buckets[lvl],
+                    key=lambda t: (t[1], t[2]),  # KB→Repos の順で降順
+                    reverse=True,
+                )
             )
         )
     return "\n\n".join(rows)
@@ -245,10 +262,7 @@ def main() -> None:
     md = repl("stats", stats_block(), md)
 
     # Trophy
-    trophy_tag = (
-        "[![trophy](https://github-profile-trophy.vercel.app/?username="
-        f"{OWNER})](https://github.com/ryo-ma/github-profile-trophy)"
-    )
+    trophy_tag = f'<img src="assets/trophy.svg" alt="{OWNER} graph" width="99.8%"/>'
     md = repl("trophy", trophy_tag, md)
 
     # 更新日時
