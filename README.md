@@ -31,15 +31,15 @@
 ## Stats & Streak
 <!--START_SECTION:stats-->
 <div class="d-block">
-  <img src="assets/stats.svg" alt="dahutos2 stats"  width="48.95%" align="left"/>
-  <img src="assets/streak-stats.svg"  alt="dahutos2 streak" width="48.95%"/>
+  <img src="assets/stats.svg" alt="dahutos2 stats"  width="48.7%" align="left"/>
+  <img src="assets/streak-stats.svg"  alt="dahutos2 streak" width="48.7%"/>
 </div>
 <br/>
 <img src="assets/activity-graph.svg" alt="dahutos2 graph" width="99.8%"/>
 
 ---
 <div class="d-block">
-  <img src="assets/wakatime.svg" alt="wakatime" width="49.9%" align="left"/>
+  <img src="assets/wakatime.svg" alt="wakatime" width="49.5%" align="left"/>
   <img src="assets/top-langs.svg" alt="top langs" width="48%"/>
 </div>
 <!--END_SECTION:stats-->
@@ -55,5 +55,5 @@
 <!--END_SECTION:trophy-->
 
 <!--START_SECTION:footer-->
-<p align="right"><sup>⏰ Updated 2025-07-04 23:22 JST</sup></p>
+<p align="right"><sup>⏰ Updated 2025-07-04 23:23 JST</sup></p>
 <!--END_SECTION:footer-->
