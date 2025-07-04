@@ -11,7 +11,7 @@ on:
     - cron: "0 0 * * 0"  # 毎週日曜 (UTC)
 
 concurrency:
-  group: update-readme-graphics
+  group: auto-update
   cancel-in-progress: false
 
 jobs:
