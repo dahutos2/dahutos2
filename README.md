@@ -30,13 +30,18 @@
 
 ## Stats & Streak
 <!--START_SECTION:stats-->
-<p style="margin:0;"><img src="assets/stats.svg" alt="stats" width="48%" align="top">
-<img src="assets/streak-stats.svg" alt="streak" width="48%" align="top"></p>
+<div class="d-block">
+  <img src="assets/stats.svg" alt="dahutos2 stats"  width="48.95%" align="left"/>
+  <img src="assets/streak-stats.svg"  alt="dahutos2 streak" width="48.95%"/>
+</div>
 <br/>
-<img src="assets/activity-graph.svg" alt="activity" width="100%" align="top">
-<hr/>
-<p style="margin:0;"><img src="assets/wakatime.svg" alt="wakatime" width="48%" align="top">
-<img src="assets/top-langs.svg" alt="top langs" width="48%" align="top"></p>
+<img src="assets/activity-graph.svg" alt="dahutos2 graph" width="99.8%"/>
+
+---
+<div class="d-block">
+  <img src="assets/wakatime.svg" alt="wakatime" width="49.9%" align="left"/>
+  <img src="assets/top-langs.svg" alt="top langs" width="48%"/>
+</div>
 <!--END_SECTION:stats-->
 
 ## LAPRAS Score
@@ -50,5 +55,5 @@
 <!--END_SECTION:trophy-->
 
 <!--START_SECTION:footer-->
-<p align="right"><sup>⏰ Updated 2025-07-04 23:06 JST</sup></p>
+<p align="right"><sup>⏰ Updated 2025-07-04 23:22 JST</sup></p>
 <!--END_SECTION:footer-->
