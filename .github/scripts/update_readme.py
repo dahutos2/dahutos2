@@ -152,10 +152,10 @@ def hero(info: dict) -> str:
     """
     # ----- タイトル行 (アイコン＋テキストを横並び)
     h1 = (
-        '<div style="display: flex; align-items: center; gap: 8px;">'
-        f'<img src="assets/icon.png" alt="icon" style="height: 1.2em;">'
-        f'<h1 style="margin: 0;">{info["name"]}</h1>'
-        "</div>"
+        f'<h1 align="left">'
+        f'<img src="icon.png" alt="icon" height="32" style="vertical-align: middle; margin-right: 8px;">'
+        f'{info["name"]}'
+        f"</h1>"
     )
 
     # ----- ハンドル＋リンク
@@ -246,23 +246,29 @@ def build_stack(langs: List[Dict[str, int]]) -> str:
 
 # ────────────────────────── Stats & Streak + Wakatime & Top-Langs (2 行)
 def stats_block() -> str:
-    stats = f'<img src="assets/stats.svg" alt="{OWNER} stats" style="max-width: 100%; height: auto;"/>'
-    streak = f'<img src="assets/streak-stats.svg" alt="{OWNER} streak" style="max-width: 100%; height: auto;"/>'
-    graph = f'<img src="assets/activity-graph.svg" alt="{OWNER} graph" style="max-width: 100%; height: auto;"/>'
-    waka = '<img src="assets/wakatime.svg" alt="wakatime" style="max-width: 100%; height: auto;"/>'
-    langs = '<img src="assets/top-langs.svg" alt="top langs" style="max-width: 100%; height: auto;"/>'
+    # ── SVG 要素 ─────────────────────────────
+    stats = '<img src="assets/stats.svg"          alt="stats"         width="100%"/>'
+    streak = '<img src="assets/streak-stats.svg"   alt="streak"        width="100%"/>'
+    graph = '<img src="assets/activity-graph.svg" alt="activity"      width="100%"/>'
+    waka = '<img src="assets/wakatime.svg"       alt="wakatime"      width="100%"/>'
+    langs = '<img src="assets/top-langs.svg"      alt="top languages" width="100%"/>'
 
+    # ── 横 2 枚並び用の <table> ヘルパ ────────
+    def two_cols(left: str, right: str) -> str:
+        return (
+            '<table style="width:100%; border:0; border-collapse:collapse;"><tr>'
+            f'<td style="width:50%; padding:0;">{left}</td>'
+            f'<td style="width:50%; padding:0;">{right}</td>'
+            "</tr></table>"
+        )
+
+    # ── 組み立て ──────────────────────────────
     return (
-        '<div style="display: flex; flex-wrap: wrap; gap: 4px;">\n'
-        f'  <div style="flex: 1 1 50%;">{stats}</div>\n'
-        f'  <div style="flex: 1 1 50%;">{streak}</div>\n'
-        "</div>\n"
-        f"<div>{graph}</div>\n"
-        "<hr/>\n"
-        '<div style="display: flex; flex-wrap: wrap; gap: 4px;">\n'
-        f'  <div style="flex: 1 1 50%;">{waka}</div>\n'
-        f'  <div style="flex: 1 1 50%;">{langs}</div>\n'
-        "</div>"
+        two_cols(stats, streak)  # 1 行目 : stats / streak
+        + "<br/>"
+        + graph  # 2 行目 : graph (100%)
+        + "<hr/>"
+        + two_cols(waka, langs)  # 3 行目 : wakatime / top-langs
     )
 
 
