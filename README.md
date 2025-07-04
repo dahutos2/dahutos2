@@ -3,7 +3,7 @@
 <!--END_SECTION:badges-->
 
 <!--START_SECTION:hero-->
-<h1 align="left">Daichi Okumura</h1>
+<div style="display: flex; align-items: center; gap: 8px;"><img src="assets/icon.png" alt="icon" style="height: 1.2em;"><h1 style="margin: 0;">Daichi Okumura</h1></div>
 <p align="left">@dahutos2 ｜ <a href="https://x.com/dahutos1">X / Twitter</a></p>
 <p align="left">Full-stack developer / Flutter etc…</p>
 <p align="right">📍 Osaka, Japan</p>
@@ -13,34 +13,32 @@
 <!--START_SECTION:stack-->
 ### Expert
 
-![Jupyter Notebook](https://img.shields.io/badge/Jupyter%20Notebook-Expert-CA9B04?logo=jupyter+notebook&logoColor=white&labelColor=DA5B0B) ![Dart](https://img.shields.io/badge/Dart-Expert-CA9B04?logo=dart&logoColor=white&labelColor=0175C2) ![Python](https://img.shields.io/badge/Python-Expert-CA9B04?logo=python&logoColor=white&labelColor=3776AB) ![CSS](https://img.shields.io/badge/CSS-Expert-CA9B04?logo=css&logoColor=white&labelColor=1572B6) ![HTML](https://img.shields.io/badge/HTML-Expert-CA9B04?logo=html&logoColor=white&labelColor=E34C26) ![Shell](https://img.shields.io/badge/Shell-Expert-CA9B04?logo=shell&logoColor=white&labelColor=89e051) ![Swift](https://img.shields.io/badge/Swift-Expert-CA9B04?logo=swift&logoColor=white&labelColor=FA7343) ![Makefile](https://img.shields.io/badge/Makefile-Expert-CA9B04?logo=makefile&logoColor=white&labelColor=427819) ![Kotlin](https://img.shields.io/badge/Kotlin-Expert-CA9B04?logo=kotlin&logoColor=white&labelColor=A97BFF) ![Objective-C](https://img.shields.io/badge/Objective--C-Expert-CA9B04?logo=objective-c&logoColor=white&labelColor=438EFF) ![Procfile](https://img.shields.io/badge/Procfile-Expert-CA9B04?logo=procfile&logoColor=white&labelColor=888888)
-
-### Advanced
-
-![JavaScript](https://img.shields.io/badge/JavaScript-Advanced-57DD55?logo=javascript&logoColor=white&labelColor=F7DF1E) ![Ruby](https://img.shields.io/badge/Ruby-Advanced-57DD55?logo=ruby&logoColor=white&labelColor=CC342D)
+![Jupyter Notebook](https://img.shields.io/badge/Jupyter%20Notebook-Expert-CA9B04?logo=jupyter+notebook&logoColor=white&labelColor=DA5B0B) ![Dart](https://img.shields.io/badge/Dart-Expert-CA9B04?logo=dart&logoColor=white&labelColor=0175C2) ![Python](https://img.shields.io/badge/Python-Expert-CA9B04?logo=python&logoColor=white&labelColor=3776AB)
 
 ### Intermediate
 
-![Java](https://img.shields.io/badge/Java-Intermediate-4CA8FF?logo=java&logoColor=white&labelColor=B07219) ![TypeScript](https://img.shields.io/badge/TypeScript-Intermediate-4CA8FF?logo=typescript&logoColor=white&labelColor=3178C6) ![C#](https://img.shields.io/badge/C%23-Intermediate-4CA8FF?logo=c%23&logoColor=white&labelColor=178600) ![kvlang](https://img.shields.io/badge/kvlang-Intermediate-4CA8FF?logo=kvlang&logoColor=white&labelColor=888888)
+![Java](https://img.shields.io/badge/Java-Intermediate-4CA8FF?logo=java&logoColor=white&labelColor=B07219) ![CSS](https://img.shields.io/badge/CSS-Intermediate-4CA8FF?logo=css&logoColor=white&labelColor=1572B6) ![HTML](https://img.shields.io/badge/HTML-Intermediate-4CA8FF?logo=html&logoColor=white&labelColor=E34C26) ![TypeScript](https://img.shields.io/badge/TypeScript-Intermediate-4CA8FF?logo=typescript&logoColor=white&labelColor=3178C6) ![C#](https://img.shields.io/badge/C%23-Intermediate-4CA8FF?logo=c%23&logoColor=white&labelColor=178600)
 
 ### Beginner
 
-![C++](https://img.shields.io/badge/C%2B%2B-Beginner-ADBAC7?logo=c%2B%2B&logoColor=white&labelColor=f34b7d) ![CMake](https://img.shields.io/badge/CMake-Beginner-ADBAC7?logo=cmake&logoColor=white&labelColor=888888) ![Less](https://img.shields.io/badge/Less-Beginner-ADBAC7?logo=less&logoColor=white&labelColor=1D365D) ![SCSS](https://img.shields.io/badge/SCSS-Beginner-ADBAC7?logo=scss&logoColor=white&labelColor=CD6799) ![Batchfile](https://img.shields.io/badge/Batchfile-Beginner-ADBAC7?logo=batchfile&logoColor=white&labelColor=888888) ![PowerShell](https://img.shields.io/badge/PowerShell-Beginner-ADBAC7?logo=powershell&logoColor=white&labelColor=012456) ![C](https://img.shields.io/badge/C-Beginner-ADBAC7?logo=c&logoColor=white&labelColor=555555) ![PHP](https://img.shields.io/badge/PHP-Beginner-ADBAC7?logo=php&logoColor=white&labelColor=777BB4)
+![JavaScript](https://img.shields.io/badge/JavaScript-Beginner-ADBAC7?logo=javascript&logoColor=white&labelColor=F7DF1E) ![C++](https://img.shields.io/badge/C%2B%2B-Beginner-ADBAC7?logo=c%2B%2B&logoColor=white&labelColor=f34b7d) ![CMake](https://img.shields.io/badge/CMake-Beginner-ADBAC7?logo=cmake&logoColor=white&labelColor=888888)
+
+### Newbie
+
+![Shell](https://img.shields.io/badge/Shell-Newbie-9CA3AF?logo=shell&logoColor=white&labelColor=89e051) ![Ruby](https://img.shields.io/badge/Ruby-Newbie-9CA3AF?logo=ruby&logoColor=white&labelColor=CC342D) ![Swift](https://img.shields.io/badge/Swift-Newbie-9CA3AF?logo=swift&logoColor=white&labelColor=FA7343) ![Less](https://img.shields.io/badge/Less-Newbie-9CA3AF?logo=less&logoColor=white&labelColor=1D365D) ![SCSS](https://img.shields.io/badge/SCSS-Newbie-9CA3AF?logo=scss&logoColor=white&labelColor=CD6799) ![Makefile](https://img.shields.io/badge/Makefile-Newbie-9CA3AF?logo=makefile&logoColor=white&labelColor=427819) ![kvlang](https://img.shields.io/badge/kvlang-Newbie-9CA3AF?logo=kvlang&logoColor=white&labelColor=888888) ![Kotlin](https://img.shields.io/badge/Kotlin-Newbie-9CA3AF?logo=kotlin&logoColor=white&labelColor=A97BFF) ![Batchfile](https://img.shields.io/badge/Batchfile-Newbie-9CA3AF?logo=batchfile&logoColor=white&labelColor=888888) ![PowerShell](https://img.shields.io/badge/PowerShell-Newbie-9CA3AF?logo=powershell&logoColor=white&labelColor=012456) ![C](https://img.shields.io/badge/C-Newbie-9CA3AF?logo=c&logoColor=white&labelColor=555555) ![Objective-C](https://img.shields.io/badge/Objective--C-Newbie-9CA3AF?logo=objective-c&logoColor=white&labelColor=438EFF) ![Procfile](https://img.shields.io/badge/Procfile-Newbie-9CA3AF?logo=procfile&logoColor=white&labelColor=888888) ![PHP](https://img.shields.io/badge/PHP-Newbie-9CA3AF?logo=php&logoColor=white&labelColor=777BB4)
 <!--END_SECTION:stack-->
 
 ## Stats & Streak
 <!--START_SECTION:stats-->
-<div class="d-block">
-  <img src="assets/stats.svg" alt="dahutos2 stats"  width="48.7%" align="left"/>
-  <img src="assets/streak-stats.svg"  alt="dahutos2 streak" width="48.7%"/>
+<div style="display: flex; flex-wrap: wrap; gap: 4px;">
+  <div style="flex: 1 1 50%;"><img src="assets/stats.svg" alt="dahutos2 stats" style="max-width: 100%; height: auto;"/></div>
+  <div style="flex: 1 1 50%;"><img src="assets/streak-stats.svg" alt="dahutos2 streak" style="max-width: 100%; height: auto;"/></div>
 </div>
-<br/>
-<img src="assets/activity-graph.svg" alt="dahutos2 graph" width="99.8%"/>
-
----
-<div class="d-block">
-  <img src="assets/wakatime.svg" alt="wakatime" width="49.5%" align="left"/>
-  <img src="assets/top-langs.svg" alt="top langs" width="48%"/>
+<div><img src="assets/activity-graph.svg" alt="dahutos2 graph" style="max-width: 100%; height: auto;"/></div>
+<hr/>
+<div style="display: flex; flex-wrap: wrap; gap: 4px;">
+  <div style="flex: 1 1 50%;"><img src="assets/wakatime.svg" alt="wakatime" style="max-width: 100%; height: auto;"/></div>
+  <div style="flex: 1 1 50%;"><img src="assets/top-langs.svg" alt="top langs" style="max-width: 100%; height: auto;"/></div>
 </div>
 <!--END_SECTION:stats-->
 
@@ -55,5 +53,5 @@
 <!--END_SECTION:trophy-->
 
 <!--START_SECTION:footer-->
-<p align="right"><sup>⏰ Updated 2025-07-04 09:28 JST</sup></p>
+<p align="right"><sup>⏰ Updated 2025-07-04 22:01 JST</sup></p>
 <!--END_SECTION:footer-->
