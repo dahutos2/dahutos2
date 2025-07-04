@@ -2,9 +2,8 @@
 # -*- coding: utf-8 -*-
 """
 GitHub Profile 用 assets 生成スクリプト
-- assets/info.json  : ユーザー名・Bio・ロケーション
+- assets/info.json : ユーザー名・Bio・ロケーション
 - assets/repos.json : 言語ごとの総バイト数と該当リポジトリ数
-                      （そのリポジトリで当該言語のファイル数が10以上のとき repos++）
 """
 from __future__ import annotations
 
@@ -14,42 +13,37 @@ import os
 import pathlib
 import time
 import urllib.error
-import urllib.parse
 import urllib.request
 from typing import Dict, List
 
-# ────────────────────────── 環境変数
+# ─────────────── 環境
 OWNER = os.getenv("OWNER")
 TOKEN = os.getenv("GH_TOKEN_PRIVATE")
 if not OWNER or not TOKEN:
     raise RuntimeError("ENV OWNER / GH_TOKEN_PRIVATE が未設定です。")
 
-# ────────────────────────── 共通設定
 HEAD = {"Authorization": f"token {TOKEN}"}
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-REST_SLEEP = 1.1  # Code Search は 1req/秒まで
+REST_SLEEP = 0.5
+
+# 仮の平均ファイルサイズ (bytes) を定義（例えば 1KB と仮定）
+AVG_FILE_SIZE = 1024
 FILE_THRESHOLD = 10
 
 
-# ────────────────────────── HTTP Util
-def rest_get(url: str, *, retry: int = 3) -> Dict:
-    for attempt in range(retry):
-        try:
-            req = urllib.request.Request(url, headers=HEAD)
-            with urllib.request.urlopen(req) as res:
-                return json.load(res)
-        except urllib.error.HTTPError as e:
-            # 5xx のみリトライ
-            if e.code >= 500 and attempt < retry - 1:
-                time.sleep(2**attempt)
-                continue
-            raise RuntimeError(f"HTTPError {e.code}: {e.reason} -> {url}")
-        except urllib.error.URLError as e:
-            raise RuntimeError(f"URLError: {e.reason} -> {url}")
-    raise RuntimeError("Exceeded retry limit")
+# ─────────────── HTTP
+def rest_get(url: str) -> Dict:
+    try:
+        req = urllib.request.Request(url, headers=HEAD)
+        with urllib.request.urlopen(req) as res:
+            return json.load(res)
+    except urllib.error.HTTPError as e:
+        raise RuntimeError(f"HTTPError {e.code}: {e.reason} -> {url}")
+    except urllib.error.URLError as e:
+        raise RuntimeError(f"URLError: {e.reason} -> {url}")
 
 
-# ────────────────────────── ユーザー情報
+# ─────────────── ユーザー情報
 def save_user_info() -> None:
     user = rest_get(f"https://api.github.com/users/{OWNER}")
     (ROOT / "assets").mkdir(exist_ok=True)
@@ -65,15 +59,7 @@ def save_user_info() -> None:
     )
 
 
-# ────────────────────────── Code Search でファイル数を取得
-def code_count(repo: str, lang: str) -> int:
-    q = urllib.parse.quote_plus(f"repo:{OWNER}/{repo} language:{lang}")
-    url = f"https://api.github.com/search/code?q={q}&per_page=1"
-    resp = rest_get(url)
-    return resp.get("total_count", 0)
-
-
-# ────────────────────────── リポジトリ統計
+# ─────────────── リポジトリ統計
 def collect_repo_stats() -> List[Dict]:
     lang_info = collections.defaultdict(lambda: {"bytes": 0, "repos": 0})
     page = 1
@@ -85,16 +71,16 @@ def collect_repo_stats() -> List[Dict]:
             break
 
         for repo in repos:
-            if repo["fork"]:
+            if repo.get("fork"):
                 continue
             process_repo(repo, lang_info)
-        page += 1
-        time.sleep(REST_SLEEP)  # REST list 呼び出し
 
-    # bytes 降順→repos 降順で並べ替え
+        page += 1
+        time.sleep(REST_SLEEP)
+
     return [
-        {"language": l, "bytes": v["bytes"], "repos": v["repos"]}
-        for l, v in sorted(
+        {"language": lang, "bytes": info["bytes"], "repos": info["repos"]}
+        for lang, info in sorted(
             lang_info.items(),
             key=lambda t: (t[1]["bytes"], t[1]["repos"]),
             reverse=True,
@@ -108,21 +94,21 @@ def process_repo(repo: Dict, lang_info: Dict) -> None:
         return
 
     for lang, bytes_ in langs.items():
-        # Code Search （1 req / 言語）
-        cnt = code_count(repo["name"], lang)
-        time.sleep(REST_SLEEP)
-
         lang_info[lang]["bytes"] += bytes_
-        if cnt >= FILE_THRESHOLD:
+        # 仮想ファイル数 = bytes / 平均ファイルサイズ
+        approx_file_count = bytes_ / AVG_FILE_SIZE
+        if approx_file_count >= FILE_THRESHOLD:
             lang_info[lang]["repos"] += 1
 
-
-# ────────────────────────── 保存
-def save_repo_stats(rows: List[Dict]) -> None:
-    (ROOT / "assets/repos.json").write_text(json.dumps(rows, ensure_ascii=False))
+    time.sleep(REST_SLEEP)
 
 
-# ────────────────────────── Main
+# ─────────────── 保存
+def save_repo_stats(data: List[Dict]) -> None:
+    (ROOT / "assets/repos.json").write_text(json.dumps(data, ensure_ascii=False))
+
+
+# ─────────────── メイン
 def main() -> None:
     save_user_info()
     stats = collect_repo_stats()

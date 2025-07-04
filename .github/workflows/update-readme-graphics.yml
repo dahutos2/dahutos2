@@ -38,6 +38,8 @@ jobs:
         run: curl "https://github-profile-trophy.vercel.app/?username=${OWNER}&theme=dark_dimmed&margin-w=15&margin-h=15&no-bg=true&no-frame=true" -o assets/trophy.svg
 
   call-commit:
+    needs: update-graphics
+    if: ${{ needs.update-graphics.result == 'success' }}
     uses: dahutos2/dahutos2/.github/workflows/commit-and-push.yml@main
     with:
       commit_message: "docs: auto update (graphics)"
