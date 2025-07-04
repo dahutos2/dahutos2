@@ -247,31 +247,21 @@ def build_stack(langs: List[Dict[str, int]]) -> str:
 
 # ────────────────────────── Stats & Streak + Wakatime & Top-Langs
 def stats_block() -> str:
-    # 画像タグ生成ヘルパ
-    def img(src: str, alt: str, w: str = "100%", extra: str = "") -> str:
-        return f'<img src="{src}" alt="{alt}" width="{w}" align="top"{extra}>'
-
-    # 行 1 ︙ Stats / Streak（48 % + 48 %）
-    row1 = (
-        '<p style="margin:0;">'
-        f'{img("assets/stats.svg",  "stats",  "48%")}\n'
-        f'{img("assets/streak-stats.svg", "streak", "48%")}'
-        "</p>"
+    stats = f'<img src="assets/stats.svg" alt="{OWNER} stats"  width="48.95%" align="left"/>'
+    streak = (
+        f'<img src="assets/streak-stats.svg"  alt="{OWNER} streak" width="48.95%"/>'
     )
+    graph = f'<img src="assets/activity-graph.svg" alt="{OWNER} graph" width="99.8%"/>'
+    waka = '<img src="assets/wakatime.svg" alt="wakatime" width="49.9%" align="left"/>'
+    langs = '<img src="assets/top-langs.svg" alt="top langs" width="48%"/>'
 
-    # 行 2 ︙ Activity graph（全幅）
-    row2 = img("assets/activity-graph.svg", "activity")
-
-    # 行 3 ︙ WakaTime / Top-Langs（48 % + 48 %）
-    row3 = (
-        '<p style="margin:0;">'
-        f'{img("assets/wakatime.svg",       "wakatime", "48%")}\n'
-        f'{img("assets/top-langs.svg",      "top langs", "48%")}'
-        "</p>"
+    return (
+        '<div class="d-block">\n'
+        f"  {stats}\n  {streak}\n</div>\n<br/>\n"
+        f"{graph}\n\n---\n"
+        '<div class="d-block">\n'
+        f"  {waka}\n  {langs}\n</div>"
     )
-
-    # 組み立て
-    return f"{row1}\n<br/>\n{row2}\n<hr/>\n{row3}"
 
 
 # ────────────────────────── メイン処理
