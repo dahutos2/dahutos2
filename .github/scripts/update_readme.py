@@ -152,10 +152,10 @@ def hero(info: dict) -> str:
     """
     # ----- タイトル行 (アイコン＋テキストを横並び)
     h1 = (
-        f'<h1 align="left" style="margin:0;">'
-        f'<img src="icon.png" alt="icon" '
-        f'style="height:1em;width:1em;vertical-align:text-top;margin-right:0.45em;">'
-        f'{info["name"]}'
+        f'<h1 align="left">'
+        f'<img src="icon.png" alt="icon" align="center"'
+        f'style="height:1.25em;width:1.2em;">'
+        f'  {info["name"]}'
         f"</h1>"
     )
 
