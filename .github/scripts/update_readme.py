@@ -153,7 +153,8 @@ def hero(info: dict) -> str:
     # ----- タイトル行 (アイコン＋テキストを横並び)
     h1 = (
         f'<h1 align="left" style="margin:0;">'
-        f'<img src="icon.png" alt="icon" style="height:1em;vertical-align:middle;margin-right:8px;">'
+        f'<img src="icon.png" alt="icon" '
+        f'style="height:1em;width:1em;vertical-align:text-top;margin-right:0.45em;">'
         f'{info["name"]}'
         f"</h1>"
     )
@@ -246,31 +247,30 @@ def build_stack(langs: List[Dict[str, int]]) -> str:
 
 # ────────────────────────── Stats & Streak + Wakatime & Top-Langs (2 行)
 def stats_block() -> str:
-    # ── SVG 要素 ─────────────────────────────
-    stats = '<img src="assets/stats.svg"          alt="stats"         width="100%"/>'
-    streak = '<img src="assets/streak-stats.svg"   alt="streak"        width="100%"/>'
-    graph = '<img src="assets/activity-graph.svg" alt="activity"      width="100%"/>'
-    waka = '<img src="assets/wakatime.svg"       alt="wakatime"      width="100%"/>'
-    langs = '<img src="assets/top-langs.svg"      alt="top languages" width="100%"/>'
+    # 画像タグ（共通 style を一つだけ保持）
+    def img(path: str, alt: str, w: str = "100%") -> str:
+        return f'<img src="{path}" alt="{alt}" width="{w}">'
 
-    # ── 横 2 枚並び用の <table> ヘルパ ────────
-    def two_cols(left: str, right: str) -> str:
-        return (
-            '<table border="0" cellspacing="0" cellpadding="0" style="width:100%;border-collapse:collapse;">'
-            "<tr>"
-            f'<td style="width:50%;padding:0;margin:0;border:0;">{left}</td>'
-            f'<td style="width:50%;padding:0;margin:0;border:0;">{right}</td>'
-            "</tr></table>"
-        )
-
-    # ── 組み立て ──────────────────────────────
-    return (
-        two_cols(stats, streak)  # 1 行目 : stats / streak
-        + "<br/>"
-        + graph  # 2 行目 : graph (100%)
-        + "<hr/>"
-        + two_cols(waka, langs)  # 3 行目 : wakatime / top-langs
+    # 1行目（横並び 2枚）
+    row1 = (
+        '<p style="margin:0;">'
+        f'{img("assets/stats.svg",  "stats",  "49%")}'
+        f'{img("assets/streak-stats.svg", "streak", "49%")}'
+        "</p>"
     )
+
+    # 2行目（全幅グラフ）
+    row2 = img("assets/activity-graph.svg", "activity")
+
+    # 3行目（横並び 2枚）
+    row3 = (
+        '<p style="margin:0;">'
+        f'{img("assets/wakatime.svg", "wakatime", "49%")}'
+        f'{img("assets/top-langs.svg", "top languages", "49%")}'
+        "</p>"
+    )
+
+    return f"{row1}\n<br/>\n{row2}\n<hr/>\n{row3}"
 
 
 # ────────────────────────── メイン処理
