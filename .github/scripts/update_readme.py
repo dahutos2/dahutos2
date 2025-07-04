@@ -152,8 +152,8 @@ def hero(info: dict) -> str:
     """
     # ----- タイトル行 (アイコン＋テキストを横並び)
     h1 = (
-        f'<h1 align="left">'
-        f'<img src="icon.png" alt="icon" height="32" style="vertical-align: middle; margin-right: 8px;">'
+        f'<h1 align="left" style="margin:0;">'
+        f'<img src="icon.png" alt="icon" style="height:1em;vertical-align:middle;margin-right:8px;">'
         f'{info["name"]}'
         f"</h1>"
     )
@@ -256,9 +256,10 @@ def stats_block() -> str:
     # ── 横 2 枚並び用の <table> ヘルパ ────────
     def two_cols(left: str, right: str) -> str:
         return (
-            '<table style="width:100%; border:0; border-collapse:collapse;"><tr>'
-            f'<td style="width:50%; padding:0;">{left}</td>'
-            f'<td style="width:50%; padding:0;">{right}</td>'
+            '<table border="0" cellspacing="0" cellpadding="0" style="width:100%;border-collapse:collapse;">'
+            "<tr>"
+            f'<td style="width:50%;padding:0;margin:0;border:0;">{left}</td>'
+            f'<td style="width:50%;padding:0;margin:0;border:0;">{right}</td>'
             "</tr></table>"
         )
 
