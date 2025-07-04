@@ -154,7 +154,7 @@ def hero(info: dict) -> str:
     h1 = (
         f'<h1 align="left">'
         f'<img src="icon.png" alt="icon" align="center"'
-        f'style="height:1.25em;width:1.2em;">'
+        f'style="height:1.25em;width:1.25em;">'
         f'  {info["name"]}'
         f"</h1>"
     )
