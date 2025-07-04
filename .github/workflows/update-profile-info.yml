@@ -28,28 +28,18 @@ jobs:
       WAKA_TIME_SVG_ID: ${{ secrets.WAKA_TIME_SVG_ID }} # WakaTimeSvg
     steps:
       - uses: actions/checkout@v4
+      
       - name: Generate info.json & repos.json
         run: python .github/scripts/generate_assets.py
+      
       - name: Update README
         run: python .github/scripts/update_readme.py
-
-  call-commit:
-    needs: update
-    if: ${{ needs.update.result == 'success' }}
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Download artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: updated-files
-
+      
       - name: Set Git Config
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
+      
       - name: Commit & Push if Changed
         run: |
           git add README.md assets
