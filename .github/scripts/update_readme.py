@@ -247,12 +247,12 @@ def build_stack(langs: List[Dict[str, int]]) -> str:
 
 # ────────────────────────── Stats & Streak + Wakatime & Top-Langs
 def stats_block() -> str:
-    stats = f'<img src="assets/stats.svg" alt="{OWNER} stats"  width="48.95%" align="left"/>'
-    streak = (
-        f'<img src="assets/streak-stats.svg"  alt="{OWNER} streak" width="48.95%"/>'
+    stats = (
+        f'<img src="assets/stats.svg" alt="{OWNER} stats"  width="48.7%" align="left"/>'
     )
+    streak = f'<img src="assets/streak-stats.svg"  alt="{OWNER} streak" width="48.7%"/>'
     graph = f'<img src="assets/activity-graph.svg" alt="{OWNER} graph" width="99.8%"/>'
-    waka = '<img src="assets/wakatime.svg" alt="wakatime" width="49.9%" align="left"/>'
+    waka = '<img src="assets/wakatime.svg" alt="wakatime" width="49.5%" align="left"/>'
     langs = '<img src="assets/top-langs.svg" alt="top langs" width="48%"/>'
 
     return (
