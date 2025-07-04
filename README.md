@@ -30,11 +30,11 @@
 
 ## Stats & Streak
 <!--START_SECTION:stats-->
-<p style="margin:0;"><img src="assets/stats.svg" alt="stats" width="49%"><img src="assets/streak-stats.svg" alt="streak" width="49%"></p>
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;"><tr valign="top"><td style="width:48%;padding:0;margin:0;border:0;"><img src="assets/stats.svg" alt="stats" width="100%"></td><td style="width:48%;padding:0;margin:0;border:0;"><img src="assets/streak-stats.svg" alt="streak" width="100%"></td></tr></table>
 <br/>
 <img src="assets/activity-graph.svg" alt="activity" width="100%">
 <hr/>
-<p style="margin:0;"><img src="assets/wakatime.svg" alt="wakatime" width="49%"><img src="assets/top-langs.svg" alt="top languages" width="49%"></p>
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;"><tr valign="top"><td style="width:42%;padding:0;margin:0;border:0;"><img src="assets/wakatime.svg" alt="wakatime" width="100%"></td><td style="width:57%;padding:0;margin:0;border:0;"><img src="assets/top-langs.svg" alt="top languages" width="100%"></td></tr></table>
 <!--END_SECTION:stats-->
 
 ## LAPRAS Score
@@ -48,5 +48,5 @@
 <!--END_SECTION:trophy-->
 
 <!--START_SECTION:footer-->
-<p align="right"><sup>⏰ Updated 2025-07-04 22:31 JST</sup></p>
+<p align="right"><sup>⏰ Updated 2025-07-04 22:36 JST</sup></p>
 <!--END_SECTION:footer-->
