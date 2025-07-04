@@ -245,30 +245,36 @@ def build_stack(langs: List[Dict[str, int]]) -> str:
     return "\n\n".join(rows)
 
 
-# ────────────────────────── Stats & Streak + Wakatime & Top-Langs (2 行)
+# ────────────────────────── Stats & Streak + Wakatime & Top-Langs
 def stats_block() -> str:
-    # 画像タグ（共通 style を一つだけ保持）
-    def img(path: str, alt: str, w: str = "100%") -> str:
-        return f'<img src="{path}" alt="{alt}" width="{w}">'
+    # 共通 img ヘルパ
+    def img(src: str, alt: str, w: str = "100%") -> str:
+        return f'<img src="{src}" alt="{alt}" width="{w}">'
 
-    # 1行目（横並び 2枚）
-    row1 = (
-        '<p style="margin:0;">'
-        f'{img("assets/stats.svg",  "stats",  "49%")}'
-        f'{img("assets/streak-stats.svg", "streak", "49%")}'
-        "</p>"
-    )
+    stats = img("assets/stats.svg", "stats")
+    streak = img("assets/streak-stats.svg", "streak")
+    graph = img("assets/activity-graph.svg", "activity")
+    waka = img("assets/wakatime.svg", "wakatime")
+    langs = img("assets/top-langs.svg", "top languages")
 
-    # 2行目（全幅グラフ）
-    row2 = img("assets/activity-graph.svg", "activity")
+    # 横 2 枚を “space-between” っぽく並べるテーブル
+    def two_cols(left: str, right: str, w_left: str, w_right: str) -> str:
+        return (
+            '<table width="100%" cellpadding="0" cellspacing="0" border="0" '
+            'style="border-collapse:collapse;"><tr valign="top">'
+            f'<td style="width:{w_left};padding:0;margin:0;border:0;">{left}</td>'
+            f'<td style="width:{w_right};padding:0;margin:0;border:0;">{right}</td>'
+            "</tr></table>"
+        )
 
-    # 3行目（横並び 2枚）
-    row3 = (
-        '<p style="margin:0;">'
-        f'{img("assets/wakatime.svg", "wakatime", "49%")}'
-        f'{img("assets/top-langs.svg", "top languages", "49%")}'
-        "</p>"
-    )
+    # 1行目：Stats / Streak → 48% + 48%
+    row1 = two_cols(stats, streak, "48%", "48%")
+
+    # 2行目：Activity graph（全幅）
+    row2 = graph
+
+    # 3行目：WakaTime / Top Langs → 42% + 57%
+    row3 = two_cols(waka, langs, "42%", "57%")
 
     return f"{row1}\n<br/>\n{row2}\n<hr/>\n{row3}"
 
