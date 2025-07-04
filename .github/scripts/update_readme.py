@@ -247,35 +247,34 @@ def build_stack(langs: List[Dict[str, int]]) -> str:
 
 # ────────────────────────── Stats & Streak + Wakatime & Top-Langs
 def stats_block() -> str:
-    # サイズ指定付き img ヘルパ
-    def img(src: str, alt: str, w: str = "100%") -> str:
+    # 共通 img ヘルパー
+    def img(src: str, alt: str) -> str:
+        return f'<img src="{src}" alt="{alt}" width="100%">'
+
+    def two_cols(
+        left: str, right: str, w_left: str = "48%", w_right: str = "48%"
+    ) -> str:
         return (
-            f'<img src="{src}" alt="{alt}" width="{w}" '
-            'style="vertical-align:top;margin:0;">'
+            '<div style="font-size:0;line-height:0;">'  # 行間ゼロで隙間削除
+            f'<div style="display:inline-block;vertical-align:top;width:{w_left};">'
+            f"{left}</div><!-- no-gap -->"
+            f'<div style="display:inline-block;vertical-align:top;width:{w_right};">'
+            f"{right}</div>"
+            "</div>"
         )
 
-    # 1 行目：Stats / Streak（49%＋49% で中央に 2% の余白）
-    row1 = (
-        '<p style="margin:0;">'
-        f'{img("assets/stats.svg",  "stats",  "49%")}'
-        "<!-- no-whitespace -->"
-        f'{img("assets/streak-stats.svg", "streak", "49%")}'
-        "</p>"
-    )
-
-    # 2 行目：Activity graph（全幅）
-    row2 = img("assets/activity-graph.svg", "activity")
-
-    # 3 行目：WakaTime / Top Langs（49%＋49%）
-    row3 = (
-        '<p style="margin:0;">'
-        f'{img("assets/wakatime.svg", "wakatime", "49%")}'
-        "<!-- no-whitespace -->"
-        f'{img("assets/top-langs.svg", "top languages", "49%")}'
-        "</p>"
-    )
+    # 画像タグ
+    stats = img("assets/stats.svg", "stats")
+    streak = img("assets/streak-stats.svg", "streak")
+    graph = img("assets/activity-graph.svg", "activity")
+    waka = img("assets/wakatime.svg", "wakatime")
+    langs = img("assets/top-langs.svg", "top languages")
 
     # 組み立て
+    row1 = two_cols(stats, streak)  # 1行目
+    row2 = graph  # 2行目（全幅）
+    row3 = two_cols(waka, langs)  # 3行目
+
     return f"{row1}\n<br/>\n{row2}\n<hr/>\n{row3}"
 
 
