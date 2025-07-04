@@ -1,0 +1,30 @@
+name: Update LAPRAS Card
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - 'README.md'
+      - '.github/workflows/update-lapras.yml'
+  schedule:
+    - cron: "0 0 1 * *"  # 毎月1日 (UTC)
+
+concurrency:
+  group: update-lapras
+  cancel-in-progress: true
+
+jobs:
+  update-lapras:
+    runs-on: ubuntu-latest
+    env:
+      LAPRAS_ID: ${{ secrets.LAPRAS_ID }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate LAPRAS Card
+        uses: kawamataryo/lapras-card-readme@main
+        with:
+          SHARE_ID: ${{ env.LAPRAS_ID }}
+          LANG: ja
+          UPDATE_TIME: "false"

@@ -145,21 +145,29 @@ def badges_row() -> str:
 # ────────────────────────── Hero（簡潔センタリング）
 def hero(info: dict) -> str:
     """
-    1行目 : 見出し（絵文字＋氏名）
+    1行目 : icon.png + 氏名（横並び）
     2行目 : ハンドル＋外部リンク（同一行）
     3行目 : Bio（センターに 1行）
     4行目 : ロケーション
     """
-    # ----- タイトル
-    h1 = f'<h1 align="left">{info["name"]}</h1>'
+    # ----- タイトル行 (アイコン＋テキストを横並び)
+    h1 = (
+        '<div style="display: flex; align-items: center; gap: 8px;">'
+        f'<img src="assets/icon.png" alt="icon" style="height: 1.2em;">'
+        f'<h1 style="margin: 0;">{info["name"]}</h1>'
+        "</div>"
+    )
 
     # ----- ハンドル＋リンク
     #   @ユーザー ｜ <a>Link</a>
     handle = f"@{OWNER}"
     links = json.loads(os.getenv("PROFILE_LINKS") or "[]")
     if links:
-        first = f'<a href="{links[0]["url"]}">{links[0]["title"]}</a>'
-        handle += f" ｜ {first}"
+        # 各リンクを <a> に変換
+        link_parts = [f'<a href="{link["url"]}">{link["title"]}</a>' for link in links]
+        # ｜ で連結
+        link_str = " ｜ ".join(link_parts)
+        handle += f" ｜ {link_str}"
     row2 = f'<p align="left">{handle}</p>'
 
     # ----- Bio
@@ -238,20 +246,23 @@ def build_stack(langs: List[Dict[str, int]]) -> str:
 
 # ────────────────────────── Stats & Streak + Wakatime & Top-Langs (2 行)
 def stats_block() -> str:
-    stats = (
-        f'<img src="assets/stats.svg" alt="{OWNER} stats"  width="48.7%" align="left"/>'
-    )
-    streak = f'<img src="assets/streak-stats.svg"  alt="{OWNER} streak" width="48.7%"/>'
-    graph = f'<img src="assets/activity-graph.svg" alt="{OWNER} graph" width="99.8%"/>'
-    waka = '<img src="assets/wakatime.svg" alt="wakatime" width="49.5%" align="left"/>'
-    langs = '<img src="assets/top-langs.svg" alt="top langs" width="48%"/>'
+    stats = f'<img src="assets/stats.svg" alt="{OWNER} stats" style="max-width: 100%; height: auto;"/>'
+    streak = f'<img src="assets/streak-stats.svg" alt="{OWNER} streak" style="max-width: 100%; height: auto;"/>'
+    graph = f'<img src="assets/activity-graph.svg" alt="{OWNER} graph" style="max-width: 100%; height: auto;"/>'
+    waka = '<img src="assets/wakatime.svg" alt="wakatime" style="max-width: 100%; height: auto;"/>'
+    langs = '<img src="assets/top-langs.svg" alt="top langs" style="max-width: 100%; height: auto;"/>'
 
     return (
-        '<div class="d-block">\n'
-        f"  {stats}\n  {streak}\n</div>\n<br/>\n"
-        f"{graph}\n\n---\n"
-        '<div class="d-block">\n'
-        f"  {waka}\n  {langs}\n</div>"
+        '<div style="display: flex; flex-wrap: wrap; gap: 4px;">\n'
+        f'  <div style="flex: 1 1 50%;">{stats}</div>\n'
+        f'  <div style="flex: 1 1 50%;">{streak}</div>\n'
+        "</div>\n"
+        f"<div>{graph}</div>\n"
+        "<hr/>\n"
+        '<div style="display: flex; flex-wrap: wrap; gap: 4px;">\n'
+        f'  <div style="flex: 1 1 50%;">{waka}</div>\n'
+        f'  <div style="flex: 1 1 50%;">{langs}</div>\n'
+        "</div>"
     )
 
 
