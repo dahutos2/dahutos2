@@ -247,32 +247,30 @@ def build_stack(langs: List[Dict[str, int]]) -> str:
 
 # ────────────────────────── Stats & Streak + Wakatime & Top-Langs
 def stats_block() -> str:
-    # 共通 img ヘルパ
-    def img(src: str, alt: str, w: str) -> str:
-        return (
-            f'<img src="{src}" alt="{alt}" width="{w}"'
-            ' style="vertical-align:top;margin:0;">'
-        )
+    # 画像タグ生成ヘルパ
+    def img(src: str, alt: str, w: str = "100%", extra: str = "") -> str:
+        return f'<img src="{src}" alt="{alt}" width="{w}" align="top"{extra}>'
 
-    # 1 行目 ─ Stats / Streak
+    # 行 1 ︙ Stats / Streak（48 % + 48 %）
     row1 = (
         '<p style="margin:0;">'
-        f'{img("assets/stats.svg", "stats", "49.5%")}'
-        f'{img("assets/streak-stats.svg", "streak", "49.5%")}'
+        f'{img("assets/stats.svg",  "stats",  "48%")}\n'
+        f'{img("assets/streak-stats.svg", "streak", "48%")}'
         "</p>"
     )
 
-    # 2 行目 ─ Activity Graph（100 %）
-    row2 = img("assets/activity-graph.svg", "activity", "100%")
+    # 行 2 ︙ Activity graph（全幅）
+    row2 = img("assets/activity-graph.svg", "activity")
 
-    # 3 行目 ─ WakaTime / Top-Langs
+    # 行 3 ︙ WakaTime / Top-Langs（48 % + 48 %）
     row3 = (
         '<p style="margin:0;">'
-        f'{img("assets/wakatime.svg", "wakatime", "49.5%")}'
-        f'{img("assets/top-langs.svg", "top languages", "49.5%")}'
+        f'{img("assets/wakatime.svg",       "wakatime", "48%")}\n'
+        f'{img("assets/top-langs.svg",      "top langs", "48%")}'
         "</p>"
     )
 
+    # 組み立て
     return f"{row1}\n<br/>\n{row2}\n<hr/>\n{row3}"
 
 
