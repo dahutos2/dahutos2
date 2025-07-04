@@ -13,7 +13,7 @@ on:
     - cron: "0 0 * * 0"  # 毎週日曜 (UTC)
 
 concurrency:
-  group: update-profile-info
+  group: auto-update
   cancel-in-progress: true
 
 jobs:

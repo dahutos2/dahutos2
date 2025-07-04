@@ -11,7 +11,7 @@ on:
     - cron: "0 0 1 * *"  # 毎月1日 (UTC)
 
 concurrency:
-  group: update-lapras
+  group: auto-update
   cancel-in-progress: true
 
 jobs:
