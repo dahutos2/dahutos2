@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   update-graphics:
-    runs-on: auto-update
+    runs-on: ubuntu-latest
     env:
       OWNER: ${{ github.repository_owner }}
     steps:
