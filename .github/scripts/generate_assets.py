@@ -131,10 +131,14 @@ def save_repo_stats(data: List[Dict]) -> None:
 
 # ---------- メインエントリーポイント ----------
 def main() -> None:
-    """全処理を順次実行"""
+    save_user_info()
     stats = collect_repo_stats()
     save_repo_stats(stats)
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception as e:
+        print(f"❌ エラーが発生しました: {e}")
+        exit(1)
