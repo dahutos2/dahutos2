@@ -37,7 +37,7 @@ jobs:
       - name: Download Trophy
         run: curl "https://github-profile-trophy.vercel.app/?username=${OWNER}&theme=dark_dimmed&margin-w=15&margin-h=15&no-bg=true&no-frame=true" -o assets/trophy.svg
 
-      - name: Commit via shared workflow
-        uses: ./.github/workflows/commit-and-push.yml
-        with:
-          commit_message: "docs: auto update (graphics)"
+  call-commit:
+    uses: dahutos2/dahutos2/.github/workflows/commit-and-push.yml@main
+    with:
+      commit_message: "docs: auto update (graphics)"
