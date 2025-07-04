@@ -40,6 +40,23 @@ jobs:
   call-commit:
     needs: update-graphics
     if: ${{ needs.update-graphics.result == 'success' }}
-    uses: dahutos2/dahutos2/.github/workflows/commit-and-push.yml@main
-    with:
-      commit_message: "docs: auto update (graphics)"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: updated-files
+
+      - name: Set Git Config
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Commit & Push if Changed
+        run: |
+          git add README.md assets
+          git diff --cached --quiet && exit 0
+          git commit -m "docs: auto update (graphics)"
+          git push --force-with-lease
