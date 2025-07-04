@@ -3,7 +3,7 @@
 <!--END_SECTION:badges-->
 
 <!--START_SECTION:hero-->
-<div style="display: flex; align-items: center; gap: 8px;"><img src="assets/icon.png" alt="icon" style="height: 1.2em;"><h1 style="margin: 0;">Daichi Okumura</h1></div>
+<h1 align="left"><img src="icon.png" alt="icon" height="32" style="vertical-align: middle; margin-right: 8px;">Daichi Okumura</h1>
 <p align="left">@dahutos2 ｜ <a href="https://x.com/dahutos1">X / Twitter</a></p>
 <p align="left">Full-stack developer / Flutter etc…</p>
 <p align="right">📍 Osaka, Japan</p>
@@ -30,16 +30,7 @@
 
 ## Stats & Streak
 <!--START_SECTION:stats-->
-<div style="display: flex; flex-wrap: wrap; gap: 4px;">
-  <div style="flex: 1 1 50%;"><img src="assets/stats.svg" alt="dahutos2 stats" style="max-width: 100%; height: auto;"/></div>
-  <div style="flex: 1 1 50%;"><img src="assets/streak-stats.svg" alt="dahutos2 streak" style="max-width: 100%; height: auto;"/></div>
-</div>
-<div><img src="assets/activity-graph.svg" alt="dahutos2 graph" style="max-width: 100%; height: auto;"/></div>
-<hr/>
-<div style="display: flex; flex-wrap: wrap; gap: 4px;">
-  <div style="flex: 1 1 50%;"><img src="assets/wakatime.svg" alt="wakatime" style="max-width: 100%; height: auto;"/></div>
-  <div style="flex: 1 1 50%;"><img src="assets/top-langs.svg" alt="top langs" style="max-width: 100%; height: auto;"/></div>
-</div>
+<table style="width:100%; border:0; border-collapse:collapse;"><tr><td style="width:50%; padding:0;"><img src="assets/stats.svg"          alt="stats"         width="100%"/></td><td style="width:50%; padding:0;"><img src="assets/streak-stats.svg"   alt="streak"        width="100%"/></td></tr></table><br/><img src="assets/activity-graph.svg" alt="activity"      width="100%"/><hr/><table style="width:100%; border:0; border-collapse:collapse;"><tr><td style="width:50%; padding:0;"><img src="assets/wakatime.svg"       alt="wakatime"      width="100%"/></td><td style="width:50%; padding:0;"><img src="assets/top-langs.svg"      alt="top languages" width="100%"/></td></tr></table>
 <!--END_SECTION:stats-->
 
 ## LAPRAS Score
@@ -53,5 +44,5 @@
 <!--END_SECTION:trophy-->
 
 <!--START_SECTION:footer-->
-<p align="right"><sup>⏰ Updated 2025-07-04 22:01 JST</sup></p>
+<p align="right"><sup>⏰ Updated 2025-07-04 22:21 JST</sup></p>
 <!--END_SECTION:footer-->
