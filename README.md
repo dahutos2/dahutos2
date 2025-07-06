@@ -4,7 +4,7 @@
 
 <!--START_SECTION:hero-->
 <h1 align="left"><img src="icon.png" alt="icon" align="center"style="height:1.25em;width:1.25em;">  Daichi Okumura</h1>
-<p align="left">@dahutos2 ｜ <a href="https://x.com/dahutos1">X / Twitter</a></p>
+<p align="left">@dahutos2 ｜ <a href="https://x.com/dahutos2">X / Twitter</a> ｜ <a href="http://dahutos2.github.io/portfolio">Portfolio</a></p>
 <p align="left">Full-stack developer / Flutter etc…</p>
 <p align="right">📍 Osaka, Japan</p>
 <!--END_SECTION:hero-->
@@ -21,7 +21,7 @@
 
 ### Beginner
 
-![JavaScript](https://img.shields.io/badge/JavaScript-Beginner-ADBAC7?logo=javascript&logoColor=white&labelColor=F7DF1E) ![C++](https://img.shields.io/badge/C%2B%2B-Beginner-ADBAC7?logo=c%2B%2B&logoColor=white&labelColor=f34b7d) ![CMake](https://img.shields.io/badge/CMake-Beginner-ADBAC7?logo=cmake&logoColor=white&labelColor=888888)
+![JavaScript](https://img.shields.io/badge/JavaScript-Beginner-ADBAC7?logo=javascript&logoColor=white&labelColor=F7DF1E) ![C++](https://img.shields.io/badge/C%2B%2B-Beginner-ADBAC7?logo=c%2B%2B&logoColor=white&labelColor=f34b7d) ![CMake](https://img.shields.io/badge/CMake-Beginner-ADBAC7?logo=cmake&logoColor=white&labelColor=888888) ![Vue](https://img.shields.io/badge/Vue-Beginner-ADBAC7?logo=vue&logoColor=white&labelColor=41B883)
 
 ### Newbie
 
@@ -55,5 +55,5 @@
 <!--END_SECTION:trophy-->
 
 <!--START_SECTION:footer-->
-<p align="right"><sup>⏰ Updated 2025-07-04 23:23 JST</sup></p>
+<p align="right"><sup>⏰ Updated 2025-07-06 09:17 JST</sup></p>
 <!--END_SECTION:footer-->
