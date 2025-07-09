@@ -21,7 +21,7 @@
 
 ### Beginner
 
-![JavaScript](https://img.shields.io/badge/JavaScript-Beginner-ADBAC7?logo=javascript&logoColor=white&labelColor=F7DF1E) ![C++](https://img.shields.io/badge/C%2B%2B-Beginner-ADBAC7?logo=c%2B%2B&logoColor=white&labelColor=f34b7d) ![CMake](https://img.shields.io/badge/CMake-Beginner-ADBAC7?logo=cmake&logoColor=white&labelColor=888888) ![Vue](https://img.shields.io/badge/Vue-Beginner-ADBAC7?logo=vue&logoColor=white&labelColor=41B883)
+![JavaScript](https://img.shields.io/badge/JavaScript-Beginner-ADBAC7?logo=javascript&logoColor=white&labelColor=F7DF1E) ![Vue](https://img.shields.io/badge/Vue-Beginner-ADBAC7?logo=vue&logoColor=white&labelColor=41B883) ![C++](https://img.shields.io/badge/C%2B%2B-Beginner-ADBAC7?logo=c%2B%2B&logoColor=white&labelColor=f34b7d) ![CMake](https://img.shields.io/badge/CMake-Beginner-ADBAC7?logo=cmake&logoColor=white&labelColor=888888)
 
 ### Newbie
 
@@ -55,5 +55,5 @@
 <!--END_SECTION:trophy-->
 
 <!--START_SECTION:footer-->
-<p align="right"><sup>⏰ Updated 2025-07-06 09:17 JST</sup></p>
+<p align="right"><sup>⏰ Updated 2025-07-10 03:17 JST</sup></p>
 <!--END_SECTION:footer-->
