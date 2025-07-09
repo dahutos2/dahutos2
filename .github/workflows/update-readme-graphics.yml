@@ -1,0 +1,53 @@
+name: Update README Graphics
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - 'README.md'
+      - '.github/workflows/update-readme-graphics.yml'
+  schedule:
+    - cron: "0 0 * * *"  # 毎日0時 (UTC)
+
+concurrency:
+  group: auto-update
+  cancel-in-progress: false
+
+jobs:
+  update-graphics:
+    runs-on: ubuntu-latest
+    env:
+      OWNER: ${{ github.repository_owner }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download GitHub Stats
+        run: curl "https://github-readme-stats.vercel.app/api?username=${OWNER}&show_icons=true&include_all_commits=true&count_private=true&theme=github_dark_dimmed" -o assets/stats.svg
+
+      - name: Download Streak Stats
+        run: curl "https://streak-stats.demolab.com?user=${OWNER}&theme=github-dark-dimmed" -o assets/streak-stats.svg
+
+      - name: Download Activity Graph
+        run: curl "https://github-readme-activity-graph.vercel.app/graph?username=${OWNER}&theme=github-dark-dimmed&area=true&radius=6" -o assets/activity-graph.svg
+
+      - name: Download wakatime
+        run: curl "https://github-readme-stats.vercel.app/api/wakatime?username=${OWNER}&range=all_time&theme=github_dark_dimmed&layout=compact" -o assets/wakatime.svg
+ 
+      - name: Download Top Languages
+        run: curl "https://github-readme-stats.vercel.app/api/top-langs?username=${OWNER}&layout=compact&langs_count=10&theme=github_dark_dimmed&hide=jupyter%20notebook" -o assets/top-langs.svg
+
+      - name: Download Trophy
+        run: curl "https://github-profile-trophy.vercel.app/?username=${OWNER}&theme=dark_dimmed&margin-w=15&margin-h=15&no-bg=true&no-frame=true" -o assets/trophy.svg
+      
+      - name: Set Git Config
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      
+      - name: Commit & Push if Changed
+        run: |
+          git add README.md assets
+          git diff --cached --quiet && exit 0
+          git commit -m "docs: auto update (graphics)"
+          git push --force-with-lease

@@ -1,0 +1,48 @@
+name: Update Profile Info
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - 'README.md'
+      - '.github/workflows/update-profile-info.yml'
+      - '.github/scripts/generate_assets.py'
+      - '.github/scripts/update_readme.py'
+  schedule:
+    - cron: "0 0 * * 0"  # 毎週日曜 (UTC)
+
+concurrency:
+  group: auto-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    environment: profile-links
+    env:
+      OWNER: ${{ github.repository_owner }} # ユーザー名
+      GH_TOKEN_PRIVATE: ${{ secrets.PROFILE_TOKEN }} # GraphQL 用 PAT
+      LAPRAS_ID: ${{ secrets.LAPRAS_ID }} # Secret
+      PROFILE_LINKS: ${{ vars.PROFILE_LINKS }} # プロフィールリンク
+      WAKA_TIME_SVG_ID: ${{ secrets.WAKA_TIME_SVG_ID }} # WakaTimeSvg
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Generate info.json & repos.json
+        run: python .github/scripts/generate_assets.py
+      
+      - name: Update README
+        run: python .github/scripts/update_readme.py
+      
+      - name: Set Git Config
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      
+      - name: Commit & Push if Changed
+        run: |
+          git add README.md assets
+          git diff --cached --quiet && exit 0
+          git commit -m "docs: auto update (info)"
+          git push --force-with-lease
