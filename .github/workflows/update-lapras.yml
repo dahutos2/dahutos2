@@ -5,10 +5,12 @@ on:
   push:
     branches: [ main ]
     paths:
-      - 'README.md'
       - '.github/workflows/update-lapras.yml'
   schedule:
     - cron: "0 0 1 * *"  # 毎月1日 (UTC)
+
+permissions:
+  contents: write
 
 concurrency:
   group: auto-update
@@ -21,9 +23,37 @@ jobs:
       LAPRAS_ID: ${{ secrets.LAPRAS_ID }}
     steps:
       - uses: actions/checkout@v4
+      
+      - name: Load versions from .tool-versions
+        id: versions
+        run: |
+          set -euo pipefail
+
+          NODE_VERSION=$(awk '$1=="nodejs" {print $2; exit}' .tool-versions)
+          PNPM_VERSION=$(awk '$1=="pnpm" {print $2; exit}' .tool-versions)
+
+          # .tool-versions の欠落を早期に明示して、setup-node/corepack の不透明な失敗を避ける。
+          if [ -z "$NODE_VERSION" ] || [ -z "$PNPM_VERSION" ]; then
+            echo "::error::.tool-versions must define both nodejs and pnpm versions"
+            exit 1
+          fi
+
+          echo "node-version=${NODE_VERSION}" >> "$GITHUB_OUTPUT"
+          echo "pnpm-version=${PNPM_VERSION}" >> "$GITHUB_OUTPUT"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ steps.versions.outputs.node-version }}
+
+      - name: Activate pnpm
+        run: |
+          set -euo pipefail
+          corepack enable
+          corepack prepare pnpm@${{ steps.versions.outputs.pnpm-version }} --activate
 
       - name: Generate LAPRAS Card
-        uses: kawamataryo/lapras-card-readme@main
+        uses: kawamataryo/lapras-card-readme@v1.3.0
         with:
           SHARE_ID: ${{ env.LAPRAS_ID }}
           LANG: ja
