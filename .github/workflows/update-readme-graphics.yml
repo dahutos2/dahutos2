@@ -5,10 +5,12 @@ on:
   push:
     branches: [ main ]
     paths:
-      - 'README.md'
       - '.github/workflows/update-readme-graphics.yml'
   schedule:
     - cron: "0 0 * * *"  # 毎日0時 (UTC)
+
+permissions:
+  contents: write
 
 concurrency:
   group: auto-update
@@ -21,24 +23,85 @@ jobs:
       OWNER: ${{ github.repository_owner }}
     steps:
       - uses: actions/checkout@v4
+      
+      - name: Load versions from .tool-versions
+        id: versions
+        run: |
+          set -euo pipefail
+
+          NODE_VERSION=$(awk '$1=="nodejs" {print $2; exit}' .tool-versions)
+          PNPM_VERSION=$(awk '$1=="pnpm" {print $2; exit}' .tool-versions)
+
+          # .tool-versions の欠落を早期に明示して、setup-node/corepack の不透明な失敗を避ける。
+          if [ -z "$NODE_VERSION" ] || [ -z "$PNPM_VERSION" ]; then
+            echo "::error::.tool-versions must define both nodejs and pnpm versions"
+            exit 1
+          fi
+
+          echo "node-version=${NODE_VERSION}" >> "$GITHUB_OUTPUT"
+          echo "pnpm-version=${PNPM_VERSION}" >> "$GITHUB_OUTPUT"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ steps.versions.outputs.node-version }}
+
+      - name: Activate pnpm
+        run: |
+          set -euo pipefail
+          corepack enable
+          corepack prepare pnpm@${{ steps.versions.outputs.pnpm-version }} --activate
 
       - name: Download GitHub Stats
-        run: curl "https://github-readme-stats.vercel.app/api?username=${OWNER}&show_icons=true&include_all_commits=true&count_private=true&theme=github_dark_dimmed" -o assets/stats.svg
+        run: |
+          set -euo pipefail
 
-      - name: Download Streak Stats
-        run: curl "https://streak-stats.demolab.com?user=${OWNER}&theme=github-dark-dimmed" -o assets/streak-stats.svg
+          fetch_svg() {
+            local url="$1"
+            local output="$2"
+            local tmp headers content_type size
+            tmp="$(mktemp)"
+            headers="$(mktemp)"
 
-      - name: Download Activity Graph
-        run: curl "https://github-readme-activity-graph.vercel.app/graph?username=${OWNER}&theme=github-dark-dimmed&area=true&radius=6" -o assets/activity-graph.svg
+            if ! curl -fsSL --retry 2 --connect-timeout 10 --max-time 30 --max-filesize 1048576 \
+              -D "$headers" "$url" -o "$tmp"; then
+              echo "skip: fetch failed: $output"
+              rm -f "$tmp" "$headers"
+              return 0
+            fi
 
-      - name: Download wakatime
-        run: curl "https://github-readme-stats.vercel.app/api/wakatime?username=${OWNER}&range=all_time&theme=github_dark_dimmed&layout=compact" -o assets/wakatime.svg
- 
-      - name: Download Top Languages
-        run: curl "https://github-readme-stats.vercel.app/api/top-langs?username=${OWNER}&layout=compact&langs_count=10&theme=github_dark_dimmed&hide=jupyter%20notebook" -o assets/top-langs.svg
+            # SVG 以外の HTML エラーページを保存しないよう、ヘッダと本文の両方で判定する。
+            content_type="$(awk 'tolower($0) ~ /^content-type:/ {print $0}' "$headers" | tail -n 1)"
+            if ! echo "$content_type" | rg -qi 'image/svg\+xml|application/xml|text/xml|text/plain'; then
+              echo "skip: unexpected content-type for $output: ${content_type:-unknown}"
+              rm -f "$tmp" "$headers"
+              return 0
+            fi
 
-      - name: Download Trophy
-        run: curl "https://github-profile-trophy.vercel.app/?username=${OWNER}&theme=dark_dimmed&margin-w=15&margin-h=15&no-bg=true&no-frame=true" -o assets/trophy.svg
+            size="$(stat -c%s "$tmp")"
+            if [ "$size" -le 0 ] || [ "$size" -gt 1048576 ]; then
+              echo "skip: unexpected size for $output: $size bytes"
+              rm -f "$tmp" "$headers"
+              return 0
+            fi
+
+            if rg -qi 'DEPLOYMENT_PAUSED|The deployment is currently unavailable|<!doctype html|<html' "$tmp" || \
+               ! rg -q '<svg|<\\?xml' "$tmp"; then
+              echo "skip: unexpected response (non-SVG) for $output"
+              rm -f "$tmp" "$headers"
+              return 0
+            fi
+
+            rm -f "$headers"
+            mv "$tmp" "$output"
+          }
+
+          fetch_svg "https://github-readme-stats.vercel.app/api?username=${OWNER}&show_icons=true&include_all_commits=true&count_private=true&theme=github_dark_dimmed" "assets/stats.svg"
+          fetch_svg "https://streak-stats.demolab.com?user=${OWNER}&theme=github-dark-dimmed" "assets/streak-stats.svg"
+          fetch_svg "https://github-readme-activity-graph.vercel.app/graph?username=${OWNER}&theme=github-dark-dimmed&area=true&radius=6" "assets/activity-graph.svg"
+          fetch_svg "https://github-readme-stats.vercel.app/api/wakatime?username=${OWNER}&range=all_time&theme=github_dark_dimmed&layout=compact" "assets/wakatime.svg"
+          fetch_svg "https://github-readme-stats.vercel.app/api/top-langs?username=${OWNER}&layout=compact&langs_count=10&theme=github_dark_dimmed&hide=jupyter%20notebook" "assets/top-langs.svg"
+          fetch_svg "https://github-profile-trophy.vercel.app/?username=${OWNER}&theme=dark_dimmed&margin-w=15&margin-h=15&no-bg=true&no-frame=true" "assets/trophy.svg"
       
       - name: Set Git Config
         run: |
@@ -47,7 +110,8 @@ jobs:
       
       - name: Commit & Push if Changed
         run: |
+          set -euo pipefail
           git add README.md assets
           git diff --cached --quiet && exit 0
           git commit -m "docs: auto update (graphics)"
-          git push --force-with-lease
+          git push

@@ -22,16 +22,18 @@ Secrets (workflow): PROFILE_TOKEN （GraphQL 用 PAT）等 / WAKA_TIME_SVG_ID
 """
 
 from __future__ import annotations
+import html
 import json, os, re, collections
 from pathlib import Path
 from datetime import datetime, timezone, timedelta
 from typing import Dict, List, Tuple
-from urllib.parse import quote, quote_plus
+from urllib.parse import quote, quote_plus, urlparse
 
 # ────────────────────────── 基本設定
 ROOT = Path(__file__).resolve().parents[2]
 README = ROOT / "README.md"
 OWNER = os.getenv("OWNER") or Path.cwd().parts[-1]
+SAFE_OWNER = quote(OWNER, safe="")
 
 # ────────────────────────── Shields.io 用の色マッピング
 LEVEL_COLOR = {
@@ -130,11 +132,55 @@ def repl(tag: str, new: str, text: str) -> str:
     )
 
 
+def html_text(value: object) -> str:
+    """README に HTML を埋め込む前に、表示用テキストを必ずエスケープする。"""
+    return html.escape(str(value or ""), quote=False)
+
+
+def html_attr(value: object) -> str:
+    """HTML 属性値向けにクォートも含めてエスケープする。"""
+    return html.escape(str(value or ""), quote=True)
+
+
+def profile_links() -> List[Dict[str, str]]:
+    """
+    PROFILE_LINKS はリポジトリ変数だが、README 破損を防ぐため形式と URL を検証する。
+
+    期待形式:
+      [{"title": "Blog", "url": "https://example.com"}]
+    """
+    raw = os.getenv("PROFILE_LINKS") or "[]"
+    links = json.loads(raw)
+    if not isinstance(links, list):
+        raise ValueError("PROFILE_LINKS must be a JSON array")
+
+    validated: List[Dict[str, str]] = []
+    for index, link in enumerate(links):
+        if not isinstance(link, dict):
+            raise ValueError(f"PROFILE_LINKS[{index}] must be an object")
+
+        title = str(link.get("title") or "").strip()
+        url = str(link.get("url") or "").strip()
+        parsed = urlparse(url)
+
+        if not title or len(title) > 80:
+            raise ValueError(f"PROFILE_LINKS[{index}].title must be 1-80 characters")
+        if parsed.scheme not in {"http", "https"} or not parsed.netloc:
+            raise ValueError(f"PROFILE_LINKS[{index}].url must be an absolute http(s) URL")
+        if len(url) > 2048:
+            raise ValueError(f"PROFILE_LINKS[{index}].url must be 2048 characters or fewer")
+
+        validated.append({"title": title, "url": url})
+
+    return validated
+
+
 # ────────────────────────── Badges（Views / Wakatime）
 def badges_row() -> str:
-    views = f"![Views](https://komarev.com/ghpvc/?username={OWNER}&style=flat)"
+    views = f"![Views](https://komarev.com/ghpvc/?username={SAFE_OWNER}&style=flat)"
     waka = ""
     if uid := os.getenv("WAKA_TIME_SVG_ID"):
+        uid = quote(uid, safe="")
         waka = (
             f"[![wakatime](https://wakatime.com/badge/user/{uid}.svg)]"
             f"(https://wakatime.com/@{uid})"
@@ -155,28 +201,31 @@ def hero(info: dict) -> str:
         f'<h1 align="left">'
         f'<img src="icon.png" alt="icon" align="center"'
         f'style="height:1.25em;width:1.25em;">'
-        f'  {info["name"]}'
+        f'  {html_text(info["name"])}'
         f"</h1>"
     )
 
     # ----- ハンドル＋リンク
     #   @ユーザー ｜ <a>Link</a>
-    handle = f"@{OWNER}"
-    links = json.loads(os.getenv("PROFILE_LINKS") or "[]")
+    handle = f"@{html_text(OWNER)}"
+    links = profile_links()
     if links:
-        # 各リンクを <a> に変換
-        link_parts = [f'<a href="{link["url"]}">{link["title"]}</a>' for link in links]
+        # 各リンクを検証済み URL とエスケープ済みタイトルで <a> に変換
+        link_parts = [
+            f'<a href="{html_attr(link["url"])}">{html_text(link["title"])}</a>'
+            for link in links
+        ]
         # ｜ で連結
         link_str = " ｜ ".join(link_parts)
         handle += f" ｜ {link_str}"
     row2 = f'<p align="left">{handle}</p>'
 
     # ----- Bio
-    bio_txt = info.get("bio", "").strip().replace("\n", " ")
+    bio_txt = html_text(info.get("bio", "").strip().replace("\n", " "))
     row3 = f'<p align="left">{bio_txt}</p>' if bio_txt else ""
 
     # ----- Location
-    loc = info.get("location", "")
+    loc = html_text(info.get("location", ""))
     row4 = f'<p align="right">📍 {loc}</p>' if loc else ""
 
     return "\n".join(filter(None, [h1, row2, row3, row4]))
@@ -248,10 +297,10 @@ def build_stack(langs: List[Dict[str, int]]) -> str:
 # ────────────────────────── Stats & Streak + Wakatime & Top-Langs
 def stats_block() -> str:
     stats = (
-        f'<img src="assets/stats.svg" alt="{OWNER} stats"  width="48.7%" align="left"/>'
+        f'<img src="assets/stats.svg" alt="{html_attr(OWNER)} stats"  width="48.7%" align="left"/>'
     )
-    streak = f'<img src="assets/streak-stats.svg"  alt="{OWNER} streak" width="48.7%"/>'
-    graph = f'<img src="assets/activity-graph.svg" alt="{OWNER} graph" width="99.8%"/>'
+    streak = f'<img src="assets/streak-stats.svg"  alt="{html_attr(OWNER)} streak" width="48.7%"/>'
+    graph = f'<img src="assets/activity-graph.svg" alt="{html_attr(OWNER)} graph" width="99.8%"/>'
     waka = '<img src="assets/wakatime.svg" alt="wakatime" width="49.5%" align="left"/>'
     langs = '<img src="assets/top-langs.svg" alt="top langs" width="48%"/>'
 
@@ -276,7 +325,7 @@ def main() -> None:
     md = repl("stats", stats_block(), md)
 
     # Trophy
-    trophy_tag = f'<img src="assets/trophy.svg" alt="{OWNER} graph" width="99.8%"/>'
+    trophy_tag = f'<img src="assets/trophy.svg" alt="{html_attr(OWNER)} graph" width="99.8%"/>'
     md = repl("trophy", trophy_tag, md)
 
     # 更新日時
