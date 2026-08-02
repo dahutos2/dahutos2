@@ -15,13 +15,9 @@
 
 ![Jupyter Notebook](https://img.shields.io/badge/Jupyter%20Notebook-Expert-CA9B04?logo=jupyter+notebook&logoColor=white&labelColor=DA5B0B) ![Dart](https://img.shields.io/badge/Dart-Expert-CA9B04?logo=dart&logoColor=white&labelColor=0175C2) ![Python](https://img.shields.io/badge/Python-Expert-CA9B04?logo=python&logoColor=white&labelColor=3776AB)
 
-### Advanced
-
-![HTML](https://img.shields.io/badge/HTML-Advanced-57DD55?logo=html&logoColor=white&labelColor=E34C26)
-
 ### Intermediate
 
-![Java](https://img.shields.io/badge/Java-Intermediate-4CA8FF?logo=java&logoColor=white&labelColor=B07219) ![CSS](https://img.shields.io/badge/CSS-Intermediate-4CA8FF?logo=css&logoColor=white&labelColor=1572B6) ![TypeScript](https://img.shields.io/badge/TypeScript-Intermediate-4CA8FF?logo=typescript&logoColor=white&labelColor=3178C6) ![C#](https://img.shields.io/badge/C%23-Intermediate-4CA8FF?logo=c%23&logoColor=white&labelColor=178600)
+![Java](https://img.shields.io/badge/Java-Intermediate-4CA8FF?logo=java&logoColor=white&labelColor=B07219) ![CSS](https://img.shields.io/badge/CSS-Intermediate-4CA8FF?logo=css&logoColor=white&labelColor=1572B6) ![HTML](https://img.shields.io/badge/HTML-Intermediate-4CA8FF?logo=html&logoColor=white&labelColor=E34C26) ![TypeScript](https://img.shields.io/badge/TypeScript-Intermediate-4CA8FF?logo=typescript&logoColor=white&labelColor=3178C6) ![C#](https://img.shields.io/badge/C%23-Intermediate-4CA8FF?logo=c%23&logoColor=white&labelColor=178600)
 
 ### Beginner
 
@@ -59,5 +55,5 @@
 <!--END_SECTION:trophy-->
 
 <!--START_SECTION:footer-->
-<p align="right"><sup>⏰ Updated 2026-07-26 09:54 JST</sup></p>
+<p align="right"><sup>⏰ Updated 2026-08-02 09:53 JST</sup></p>
 <!--END_SECTION:footer-->
