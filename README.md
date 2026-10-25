@@ -17,11 +17,11 @@
 
 ### Intermediate
 
-![Java](https://img.shields.io/badge/Java-Intermediate-4CA8FF?logo=java&logoColor=white&labelColor=B07219) ![CSS](https://img.shields.io/badge/CSS-Intermediate-4CA8FF?logo=css&logoColor=white&labelColor=1572B6) ![HTML](https://img.shields.io/badge/HTML-Intermediate-4CA8FF?logo=html&logoColor=white&labelColor=E34C26) ![TypeScript](https://img.shields.io/badge/TypeScript-Intermediate-4CA8FF?logo=typescript&logoColor=white&labelColor=3178C6) ![C#](https://img.shields.io/badge/C%23-Intermediate-4CA8FF?logo=c%23&logoColor=white&labelColor=178600)
+![Java](https://img.shields.io/badge/Java-Intermediate-4CA8FF?logo=java&logoColor=white&labelColor=B07219) ![JavaScript](https://img.shields.io/badge/JavaScript-Intermediate-4CA8FF?logo=javascript&logoColor=white&labelColor=F7DF1E) ![CSS](https://img.shields.io/badge/CSS-Intermediate-4CA8FF?logo=css&logoColor=white&labelColor=1572B6) ![HTML](https://img.shields.io/badge/HTML-Intermediate-4CA8FF?logo=html&logoColor=white&labelColor=E34C26) ![TypeScript](https://img.shields.io/badge/TypeScript-Intermediate-4CA8FF?logo=typescript&logoColor=white&labelColor=3178C6) ![C#](https://img.shields.io/badge/C%23-Intermediate-4CA8FF?logo=c%23&logoColor=white&labelColor=178600)
 
 ### Beginner
 
-![JavaScript](https://img.shields.io/badge/JavaScript-Beginner-ADBAC7?logo=javascript&logoColor=white&labelColor=F7DF1E) ![Vue](https://img.shields.io/badge/Vue-Beginner-ADBAC7?logo=vue&logoColor=white&labelColor=41B883) ![C++](https://img.shields.io/badge/C%2B%2B-Beginner-ADBAC7?logo=c%2B%2B&logoColor=white&labelColor=f34b7d) ![CMake](https://img.shields.io/badge/CMake-Beginner-ADBAC7?logo=cmake&logoColor=white&labelColor=888888)
+![Vue](https://img.shields.io/badge/Vue-Beginner-ADBAC7?logo=vue&logoColor=white&labelColor=41B883) ![C++](https://img.shields.io/badge/C%2B%2B-Beginner-ADBAC7?logo=c%2B%2B&logoColor=white&labelColor=f34b7d) ![CMake](https://img.shields.io/badge/CMake-Beginner-ADBAC7?logo=cmake&logoColor=white&labelColor=888888)
 
 ### Newbie
 
@@ -55,5 +55,5 @@
 <!--END_SECTION:trophy-->
 
 <!--START_SECTION:footer-->
-<p align="right"><sup>⏰ Updated 2026-10-18 13:14 JST</sup></p>
+<p align="right"><sup>⏰ Updated 2026-10-25 13:23 JST</sup></p>
 <!--END_SECTION:footer-->
